@@ -19,19 +19,20 @@ class TodoView {
   addListContainer = document.querySelector(".add-list-container");
 
   constructor() {
-    this.addHandlerFocusList();
-    this.#addHandlerCheckbox();
-    this.addHandlerAddItemIcon();
-    this.addHandlerRemoveItemIcon();
-    this.addHandlerEnterOnItem();
-    this.addHandlerListOptionsIcon();
-    this.addHandlerOverlay();
-    this.addHandlerAddListIcon();
-    this.addHandlerCloseListIcon();
+    this.#addHandlerFocusOnSelectedList();
+    this.#addHandlerAddListItem();
+    this.#addHandlerPressEnterOnListItem();
+    this.#addHandlerListToggleListOptions();
+    this.#addHandlerClickOverlay();
+    this.#addHandlerCloseList();
   }
 
   #selectList(element) {
     return element.closest(".todo-item");
+  }
+
+  #selectNewListItem(todoItemsContainer) {
+    return todoItemsContainer.lastChild.previousElementSibling;
   }
 
   hideTodoView() {
@@ -61,7 +62,7 @@ class TodoView {
           <i class="ph-square checkbox todo-box"></i>
         </div>
         <div class="todo-item-text" contenteditable="true" ></div>
-        <i class="ph-x-circle remove-item-icon"></i>
+        <i class="ph-minus-circle remove-item-icon"></i>
       </div>
     `;
 
@@ -119,6 +120,15 @@ class TodoView {
   isListAlreadyBeingDisplayed(id) {
     const lists = [...this.todoSection.querySelectorAll(".todo-item")];
     return lists.some((list) => list.dataset.id === id);
+  }
+
+  #spanExtraRowsIfBig() {
+    const lists = [...document.querySelectorAll(".todo-item")];
+    lists.forEach((list) => {
+      const height = list.offsetHeight;
+      const rows = Math.round(height / 10);
+      list.style.gridRow = `span ${rows}`;
+    });
   }
 
   renderSelectedList(listData) {
@@ -197,8 +207,17 @@ class TodoView {
     `;
 
     this.addListContainer.insertAdjacentHTML("beforebegin", markup);
+    this.#spanExtraRowsIfBig();
     const list = this.addListContainer.previousElementSibling;
     this.changeColor(list, color);
+  }
+
+  clearTodoLists() {
+    let list = this.addListContainer.previousElementSibling;
+    while (list) {
+      list.remove();
+      list = this.addListContainer.previousElementSibling;
+    }
   }
 
   getListData(list) {
@@ -238,6 +257,7 @@ class TodoView {
 
   changeColor(list, color) {
     list.style.backgroundColor = color;
+    list.style.border = `2px solid ${color}`;
     switch (color) {
       case "red":
       case "purple":
@@ -286,34 +306,45 @@ class TodoView {
 
   // Handlers
 
-  #addHandlerCheckbox() {
+  addHandlerToggleCheckbox(handler) {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.classList.contains("checkbox")) return;
       const item = e.target.closest(".todo-item-container");
       this.toggleCheckbox(e.target);
       this.toggleStrikeThrough(item);
+
+      const list = this.#selectList(e.target);
+      const listData = this.getListData(list);
+      handler(listData);
     });
   }
 
-  addHandlerAddItemIcon() {
+  #addHandlerAddListItem() {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.classList.contains("add-item-icon")) return;
-      const element = e.target.parentElement.previousElementSibling;
-      this.addNewLine(element, "beforeend");
-      const newElement = element.lastChild.previousElementSibling;
-      this.focusItem(newElement);
+      const list = this.#selectList(e.target);
+      const todoItemsContainer = list.querySelector(".todo-items-container");
+      this.addNewLine(todoItemsContainer, "beforeend");
+      const newItem = this.#selectNewListItem(todoItemsContainer);
+      this.focusItem(newItem);
+      this.#spanExtraRowsIfBig();
     });
   }
 
-  addHandlerRemoveItemIcon() {
+  addHandlerRemoveListItem(handler) {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.classList.contains("remove-item-icon")) return;
       const item = e.target.closest(".todo-item-container");
+      const list = this.#selectList(e.target);
       this.removeItem(item);
+      this.#spanExtraRowsIfBig();
+
+      const listData = this.getListData(list);
+      handler(listData);
     });
   }
 
-  addHandlerFocusList() {
+  #addHandlerFocusOnSelectedList() {
     this.todoSection.addEventListener("click", (e) => {
       const list = this.#selectList(e.target);
       if (!list) return;
@@ -321,7 +352,7 @@ class TodoView {
     });
   }
 
-  addHandlerEnterOnItem() {
+  #addHandlerPressEnterOnListItem() {
     this.todoSection.addEventListener("keydown", (e) => {
       if (!e.target.classList.contains("todo-item-text")) return;
       if (e.key !== "Enter") return;
@@ -333,7 +364,7 @@ class TodoView {
     });
   }
 
-  addHandlerListOptionsIcon() {
+  #addHandlerListToggleListOptions() {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.classList.contains("list-options-icon")) return;
 
@@ -343,13 +374,13 @@ class TodoView {
     });
   }
 
-  addHandlerOverlay() {
+  #addHandlerClickOverlay() {
     this.overlay.addEventListener("click", () => {
       this.closeAllOptionsEl();
     });
   }
 
-  addHandlerTodoListBlur(handler) {
+  addHandlerSaveListOnFocusOut(handler) {
     this.todoSection.addEventListener("focusout", (e) => {
       const list = this.#selectList(e.target);
       const listData = this.getListData(list);
@@ -359,10 +390,8 @@ class TodoView {
     });
   }
 
-  addHandlerAddListIcon() {
-    this.iconAddList.addEventListener("click", (e) => {
-      this.addList();
-    });
+  addHandlerAddNewList(handler) {
+    this.iconAddList.addEventListener("click", handler);
   }
 
   addHandlerChooseColor(handler) {
@@ -377,7 +406,7 @@ class TodoView {
     });
   }
 
-  addHandlerCloseListIcon() {
+  #addHandlerCloseList() {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.classList.contains("close-list-icon")) return;
       const list = this.#selectList(e.target);
@@ -385,7 +414,7 @@ class TodoView {
     });
   }
 
-  addHandlerDeleteListIcon(handler) {
+  addHandlerDeleteList(handler) {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.closest(".list-option-delete")) return;
 
@@ -410,7 +439,7 @@ class TodoView {
     });
   }
 
-  addHandlerTogglePinnedList(handler) {
+  addHandlerTogglePinOnList(handler) {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.closest(".list-option-pin")) return;
 

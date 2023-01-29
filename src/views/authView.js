@@ -3,6 +3,7 @@
 export default class AuthView {
   #inputFields = document.querySelectorAll("form input");
   overlay = document.querySelector(".overlay");
+  authSection = document.querySelector(".authentication-section");
 
   constructor() {
     this.#addHandlerReload();

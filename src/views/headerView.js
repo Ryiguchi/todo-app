@@ -3,12 +3,13 @@
 import { doc } from "@firebase/firestore";
 
 class HeaderView {
+  #header = document.querySelector("header");
   layoutIcon = document.querySelector(".layout-icon");
   myLists = document.querySelector(".my-lists-title-container");
   myListsContainer = document.querySelector(".my-lists-container");
   btnLogIn = document.querySelector(".btn-login");
   btnLogOut = document.querySelector(".btn-logout");
-  userIcon = document.querySelector(".ph-user");
+  userIcon = document.querySelector(".user-icon");
   userDropDown = document.querySelector(".user-dropdown-container");
   displayName = document.querySelector(".display-name");
   overlay = document.querySelector(".overlay");
@@ -22,6 +23,7 @@ class HeaderView {
     this.#addHandlerUserIcon();
     this.#addHandlerOverlay();
     this.#addHandlerOpenLayoutMenu();
+    this.#addHandlerClickOnHeaderToCloseDropDowns();
   }
 
   signOutMessage(result, error = null) {
@@ -41,7 +43,7 @@ class HeaderView {
   }
 
   clearUserName() {
-    this.displayName.textContent = "";
+    this.displayName.textContent = "Log in to get started!";
   }
 
   showLogOutBtn() {
@@ -70,6 +72,12 @@ class HeaderView {
     this.myListsUl.insertAdjacentHTML("afterbegin", markup);
   }
 
+  clearMyLists() {
+    this.myListsUl.innerHTML = `
+      <li data-id="-1">Log in to see your lists</li>
+    `;
+  }
+
   toggleMyLists() {
     this.myListsContainer.classList.toggle("hidden");
   }
@@ -78,20 +86,34 @@ class HeaderView {
     this.layoutDropDownContainer.classList.toggle("hidden");
   }
 
+  toggleUserIcon() {
+    this.userIcon.classList.toggle("hidden");
+  }
+
+  showUserIcon() {
+    this.userIcon.classList.remove("hidden");
+  }
+
+  hideUserIcon() {
+    this.userIcon.classList.add("hidden");
+  }
+
   #toggleOverlay() {
     this.overlay.classList.toggle("hidden");
   }
 
-  #closeAllLists() {
-    this.userDropDown.classList.add("hidden");
-    this.myListsContainer.classList.add("hidden");
-    this.layoutDropDownContainer.classList.add("hidden");
+  #closeAllLists(activeMenu) {
+    if (activeMenu !== "user") this.userDropDown.classList.add("hidden");
+    if (activeMenu !== "lists") this.myListsContainer.classList.add("hidden");
+    if (activeMenu !== "layout")
+      this.layoutDropDownContainer.classList.add("hidden");
   }
 
   // Handlers
 
   #addHandlerToggleMyLists() {
     this.myLists.addEventListener("click", () => {
+      this.#closeAllLists("lists");
       this.toggleMyLists();
       this.overlay.classList.remove("hidden");
     });
@@ -99,6 +121,7 @@ class HeaderView {
 
   #addHandlerUserIcon() {
     this.userIcon.addEventListener("click", () => {
+      this.#closeAllLists("user");
       this.toggleUserDropdown();
       this.overlay.classList.remove("hidden");
     });
@@ -113,6 +136,7 @@ class HeaderView {
 
   #addHandlerOpenLayoutMenu() {
     this.layoutIcon.addEventListener("click", () => {
+      this.#closeAllLists("layout");
       this.toggleLayoutDropDownMenu();
       this.#toggleOverlay();
     });
@@ -120,7 +144,6 @@ class HeaderView {
 
   addHandlerLogInBtn(handler) {
     this.btnLogIn.addEventListener("click", () => {
-      this.toggleUserDropdown();
       handler();
     });
   }
@@ -128,6 +151,7 @@ class HeaderView {
   addHandlerLogOutBtn(handler) {
     this.btnLogOut.addEventListener("click", () => {
       this.toggleUserDropdown();
+      this.hideUserIcon();
       handler();
     });
   }
@@ -135,6 +159,7 @@ class HeaderView {
   addHandlerDisplayChosenList(handler) {
     this.myListsUl.addEventListener("click", (e) => {
       const id = e.target.dataset.id;
+      if (id === "-1") return;
       this.toggleMyLists();
       this.#toggleOverlay();
       handler(id);
@@ -144,8 +169,16 @@ class HeaderView {
   addHandlerChangeGrid(handler) {
     this.layoutDropDownContainer.addEventListener("click", (e) => {
       const numColumns = e.target.dataset.grid;
-
+      this.#toggleOverlay();
+      this.toggleLayoutDropDownMenu();
       handler(numColumns);
+    });
+  }
+
+  #addHandlerClickOnHeaderToCloseDropDowns() {
+    this.#header.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("header")) return;
+      this.#closeAllLists();
     });
   }
 }

@@ -24,7 +24,8 @@ const controlLogOutBtn = async () => {
     model.clearCurrentUser();
     headerView.clearUserName();
     headerView.showLogInBtn();
-    // headerView.signOutMessage("success");
+    headerView.clearMyLists();
+    todoView.clearTodoLists();
   } catch (error) {
     headerView.signOutMessage("error", error);
   }
@@ -36,11 +37,16 @@ const controlCloseSection = () => {
   todoView.showTodoView();
 };
 
+const signInSuccess = async () => {
+  await manageCurrentUser();
+  signInView.hideSection();
+  todoView.showTodoView();
+};
+
 const controlSignUp = async (name, email, password) => {
   try {
     await fireAuth.signUpWithEmail(name, email, password);
-    await manageCurrentUser();
-    // signUpView.showSignUpMessage("success");
+    await signInSuccess();
   } catch (error) {
     signUpView.showSignUpMessage("error", error);
   }
@@ -49,8 +55,7 @@ const controlSignUp = async (name, email, password) => {
 const controlSignIn = async (email, password) => {
   try {
     await fireAuth.signInWithEmail(email, password);
-    await manageCurrentUser();
-    // signInView.showSignInMessage("success");
+    await signInSuccess();
   } catch (error) {
     signInView.showSignInMessage("error", error);
   }
@@ -59,7 +64,8 @@ const controlSignIn = async (email, password) => {
 const controlGoogleSignIn = async () => {
   try {
     await fireAuth.googleSignIn();
-    await manageCurrentUser();
+    await signInSuccess();
+
     // signInView.showSignInMessage("success");
   } catch (error) {
     signInView.showSignInMessage("error", error);
@@ -85,6 +91,7 @@ const manageCurrentUser = async () => {
   if (user) {
     await model.setUserState(user);
     headerView.displayUserName(model.state.displayName);
+    headerView.showUserIcon();
     headerView.showLogOutBtn();
     headerView.renderMyLists(model.state.lists);
     const pinnedListsData = model.selectPinnedLists();
@@ -124,6 +131,12 @@ const controlChangeGrid = (numColumns) => {
   model.updateUserGridLayout(numColumns);
 };
 
+const controlAddNewList = () => {
+  const auth = getAuth();
+  console.log(auth.currentUser);
+  if (auth.currentUser) todoView.addList();
+};
+
 const init = () => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -149,11 +162,14 @@ const init = () => {
   forgotPassView.addHandlerResetPass(controlResetPass);
   forgotPassView.addHandlerCloseSection(controlCloseSection);
 
-  todoView.addHandlerTodoListBlur(controlSaveList);
+  todoView.addHandlerSaveListOnFocusOut(controlSaveList);
   todoView.addHandlerChooseColor(controlSaveList);
-  todoView.addHandlerDeleteListIcon(controlDeleteList);
+  todoView.addHandlerDeleteList(controlDeleteList);
   todoView.addHandlerRemoveCheckedItems(controlSaveList);
-  todoView.addHandlerTogglePinnedList(controlSaveList);
+  todoView.addHandlerTogglePinOnList(controlSaveList);
+  todoView.addHandlerAddNewList(controlAddNewList);
+  todoView.addHandlerToggleCheckbox(controlSaveList);
+  todoView.addHandlerRemoveListItem(controlSaveList);
 };
 
 init();
