@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mukta&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./index.css" />
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
+
+    <script type="module" src="./dist/bundle.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <div class="header-left-container">
+
+        <i class="ph-layout layout-icon"></i>
+        <div class="layout-drop-down-container hidden">
+          <i data-grid="1" class="ph-dots-three-vertical-bold layout-drop-down-item "></i>
+          <i data-grid="2" class="ph-dots-six-vertical-bold layout-drop-down-item "></i>
+          <i data-grid="3" class="ph-dots-nine-bold layout-drop-down-item "></i>
+        </div>
+        <div class="my-lists-title-container">
+          <div class="my-lists-text">My Lists</div>
+          <i class="ph-caret-down"></i>
+        </div>
+        <div class="my-lists-container hidden">
+          <ul>
+
+            
+          </ul>
+        </div>
+      </div>
+        <div class="user-container">
+          <span class="display-name"></span>
+          <i class="ph-user"></i>
+          <div class="user-dropdown-container hidden">
+          <button class="btn-login">LOG IN</button>
+          <button class="btn-logout hidden">LOG OUT</button>
+
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="todo-section">
+
+        <!-- <div class="todo-item">
+          <div class="todo-item-icon-container">
+            <i class="ph-push-pin pinned-list-icon-top hidden"></i>
+            <i class="ph-x close-list-icon"></i>
+          </div>
+                   
+          <div contenteditable="true" class="todo-title" >Untitled List</div>
+          <div class="todo-body">
+            <div class="todo-items-container">           
+              <div class="todo-item-container">
+                <div class="todo-checkbox-container">
+                  <i class="ph-check-square checkbox todo-box-checked hidden"></i>
+                  <i class="ph-square checkbox todo-box"></i>
+                </div>
+                <div class="todo-item-text" contenteditable="true" ></div>
+                <i class="ph-minus-circle remove-item-icon"></i>
+              </div>
+            </div>
+            <div class="add-item-container">
+              <i class="ph-plus-circle add-item-icon"></i>
+              <span>Add another item...</span>
+            </div>
+            <div class="remove-checked-items-container">
+                <i class="ph-minus-circle remove-checked-items-icon"></i>
+              <span>Remove checked items...</span>
+            </div>
+          </div>    
+          <i class="ph-dots-three-vertical-bold list-options-icon"></i>
+          <div class="list-options-container hidden">
+            <div class="list-options-item list-option-color">
+              <i class="ph-palette"></i>
+              <div class="color-container">
+                <div class="pick-color" data-color="red"></div>
+                <div class="pick-color" data-color="orange"></div>
+                <div class="pick-color" data-color="yellow"></div>
+                <div class="pick-color" data-color="green"></div>
+                <div class="pick-color" data-color="blue"></div>
+                <div class="pick-color" data-color="purple"></div>
+                <div class="pick-color" data-color="black"></div>
+                <div class="pick-color" data-color="white"></div>
+              </div>
+            </div>
+            <div class="list-options-item list-option-pin ">
+              <i class="ph-push-pin hidden list-options-pin-icon"></i>
+              <i class="ph-push-pin-fill list-options-pin-icon "></i>
+              <span>Pin List</span>
+            </div>
+            <div class="list-options-item list-option-delete">
+              <i class="ph-trash delete-note-icon"></i>
+              <span>Delete List</span>
+            </div>
+          </div>       
+        </div> -->
+        <div class="add-list-container">
+          <i class="ph-plus add-list-icon"></i>
+          <span>Add a new list</span>
+        </div>
+      </section>
+
+      <!-- Authentication Section  -->
+      <section class="authentication-section hidden">
+        <i class="ph-x close-auth-btn"></i>
+        <div class="sign-in-section">
+          <h2 class="auth-title">Already have an account?</h2>
+          <h3 class="auth-sub-titile">Sign in with your email and password</h3>
+          <form class="sign-in-form" data-form="sign-in">
+            <label class="auth-label"
+              for="email">Email</label>
+            <input class="auth-input sign-in-email-field"
+            type="email"
+            required
+            name="email"
+            >
+          </input>
+          
+
+            <label class="auth-label" for="password">Password</label>
+            <input class="auth-input sign-in-pass-field"
+            type="password"
+            required
+            name="password"
+            >
+          </input>
+
+          <div class="btn-container">
+            <button class="default-btn" type="submit">Sign in</button>
+            <button class="google-btn">
+              Google Sign In
+            </button>
+          </div>
+          <div class="reset-password-container">
+
+            <span>Forgot your password? </span>
+            <span class="btn-reset-password">
+              Click here to reset your password.
+            </span>
+          </div>
+        </form>
+        </div>
+        <div class="sign-up-section">
+          <h2 class="auth-title">Don't have an account?</h2>
+          <h3 class="auth-sub-titile">Sign up with your email and a password</h3>
+          <form class="sign-up-form" data-form="sign-up">
+            <label class="auth-label " 
+            for="name">Choose a user name</label>
+            <input class="auth-input name-field"
+            type="text"
+            required
+            name="name"
+            >
+          </input>
+            <label class="auth-label" 
+              for="email">Email</label>
+            <input class="auth-input email-field"
+            type="email"
+            required
+            name="email"
+            >
+          </input>
+          
+
+            <label class="auth-label" for="password">Choose a password</label>
+            <input class="auth-input pass-field"
+            type="password"
+            required
+            name="password"
+            >
+          </input>
+            <label class="auth-label" for="password">Confirm your password</label>
+            <input class="auth-input pass-confirm-field"
+            type="password"
+            required
+            name="password"
+            >
+          </input>
+
+          <div class="btn-container">
+            <button class="default-btn" type="submit">Sign up</button>
+            
+          </div>
+          
+        </form>
+        </div>
+      </section>
+
+      <!-- Forgot Password Section -->
+      <section class="forgot-pass-section hidden">
+        <i class="ph-x close-forgot-pass-btn"></i>
+
+        <h2>Forgot your passsword?</h2>
+        <h3>Enter your email to receive a link to reset your password.</h3>
+        <form action="submit">
+          <label class="auth-label" for="email">Email</label>
+          <input class="email-field-forgot-pass" type="email" >
+          <button class="forgot-pass-btn">Send</button>
+        </form>
+      </section>
+    </main>
+    <div class="overlay hidden"></div>
+  </body>
+</html>
