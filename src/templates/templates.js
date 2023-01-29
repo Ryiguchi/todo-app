@@ -21,10 +21,6 @@ export const todoItem = `
               <i class="ph-plus-circle add-item-icon"></i>
               <span>add another item...</span>
             </div>
-            <div class="remove-checked-items-container">
-                <i class="ph-minus-circle remove-checked-items-icon"></i>
-              <span>remove checked items...</span>
-            </div>
           </div>    
           <i class="ph-dots-three-vertical-bold list-options-icon"></i>
           <div class="list-options-container hidden">
@@ -45,6 +41,14 @@ export const todoItem = `
               <i class="ph-push-pin hidden list-options-pin-icon"></i>
               <i class="ph-push-pin-fill list-options-pin-icon "></i>
               <span>Pin List</span>
+            </div>
+            <div class="list-options-item list-option-check-all-items">
+                <i class="ph-check-square todo-box-checked"></i>
+              <span>Check all items</span>
+            </div>
+            <div class="list-options-item list-option-remove-checked-items">
+                <i class="ph-minus-circle remove-checked-items-icon"></i>
+              <span>Remove checked items</span>
             </div>
             <div class="list-options-item list-option-delete">
               <i class="ph-trash delete-note-icon"></i>

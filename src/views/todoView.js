@@ -43,15 +43,16 @@ class TodoView {
     this.todoSection.classList.remove("hidden");
   }
 
-  toggleCheckbox(element) {
-    const container = element.parentElement;
-    container
+  toggleCheckbox(listItemContainer) {
+    listItemContainer
       .querySelectorAll(".checkbox")
       .forEach((el) => el.classList.toggle("hidden"));
   }
 
-  toggleStrikeThrough(item) {
-    item.querySelector(".todo-item-text").classList.toggle("line-through");
+  toggleStrikeThrough(listItemContainer) {
+    listItemContainer
+      .querySelector(".todo-item-text")
+      .classList.toggle("line-through");
   }
 
   addNewLine(element, placement) {
@@ -171,11 +172,6 @@ class TodoView {
             <i class="ph-plus-circle add-item-icon"></i>
             <span class="add-item-icon">add another item...</span>
           </div>
-          <div class="remove-checked-items-container">
-                <i class="ph-minus-circle remove-checked-items-icon"></i>
-              <span>remove checked items...</span>
-            </div>
-
         </div>
         <i class="ph-dots-three-vertical-bold list-options-icon"></i>
           <div class="list-options-container hidden">
@@ -196,6 +192,14 @@ class TodoView {
               <i class="ph-push-pin hidden list-options-pin-icon"></i>
               <i class="ph-push-pin-fill list-options-pin-icon "></i>
               <span>Pin List</span>
+            </div>
+            <div class="list-options-item list-option-check-all-items">
+                <i class="ph-check-square todo-box-checked"></i>
+              <span>Check all items</span>
+            </div>
+            <div class="list-options-item list-option-remove-checked-items">
+                <i class="ph-minus-circle remove-checked-items-icon"></i>
+              <span>Remove checked items</span>
             </div>
             <div class="list-options-item list-option-delete">
               <i class="ph-trash delete-note-icon"></i>
@@ -288,6 +292,14 @@ class TodoView {
       .forEach((item) => item.closest(".todo-item-container").remove());
   }
 
+  #checkAllItems(list) {
+    const listItems = list.querySelectorAll(".todo-item-container");
+    listItems.forEach((item) => {
+      this.toggleCheckbox(item);
+      this.toggleStrikeThrough(item);
+    });
+  }
+
   #togglePinInListOptions(list) {
     list
       .querySelectorAll(".list-options-pin-icon")
@@ -309,9 +321,9 @@ class TodoView {
   addHandlerToggleCheckbox(handler) {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.classList.contains("checkbox")) return;
-      const item = e.target.closest(".todo-item-container");
-      this.toggleCheckbox(e.target);
-      this.toggleStrikeThrough(item);
+      const listItemContainer = e.target.closest(".todo-item-container");
+      this.toggleCheckbox(listItemContainer);
+      this.toggleStrikeThrough(listItemContainer);
 
       const list = this.#selectList(e.target);
       const listData = this.getListData(list);
@@ -428,12 +440,26 @@ class TodoView {
   addHandlerRemoveCheckedItems(handler) {
     this.todoSection.addEventListener("click", (e) => {
       const removeCheckedItemsContainer = e.target.closest(
-        ".remove-checked-items-container"
+        ".list-option-remove-checked-items"
       );
       if (!removeCheckedItemsContainer) return;
 
       const list = this.#selectList(e.target);
       this.#removeCheckedItems(list);
+      const listData = this.getListData(list);
+      handler(listData);
+    });
+  }
+
+  addHandlerCheckAllItems(handler) {
+    this.todoSection.addEventListener("click", (e) => {
+      const checkAllItemsContainer = e.target.closest(
+        ".list-option-check-all-items"
+      );
+      if (!checkAllItemsContainer) return;
+
+      const list = this.#selectList(e.target);
+      this.#checkAllItems(list);
       const listData = this.getListData(list);
       handler(listData);
     });

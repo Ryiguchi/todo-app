@@ -170,6 +170,7 @@ const init = () => {
   todoView.addHandlerAddNewList(controlAddNewList);
   todoView.addHandlerToggleCheckbox(controlSaveList);
   todoView.addHandlerRemoveListItem(controlSaveList);
+  todoView.addHandlerCheckAllItems(controlSaveList);
 };
 
 init();
