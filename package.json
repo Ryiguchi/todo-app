@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Todo by Ryan",
   "main": "index.js",
-  "homepage": "https://github.com/Ryiguchi/todo-app.git",
+  "homepage": "https://Ryiguchi.github.io/todo-app",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",
