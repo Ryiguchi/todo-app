@@ -46,6 +46,8 @@ class SignInView extends AuthView {
     if (result === "error") this.handleError(error);
   }
 
+  //  Handlers
+
   addHandlerGoogleSignIn(handler) {
     this.googleBtn.addEventListener("click", handler);
   }

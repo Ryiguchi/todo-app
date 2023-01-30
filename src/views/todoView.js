@@ -469,9 +469,21 @@ class TodoView {
     });
   }
 
-  addHandlerTogglePinOnList(handler) {
+  addHandlerTogglePinInListOptions(handler) {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.closest(".list-option-pin")) return;
+
+      const list = this.#selectList(e.target);
+      this.#togglePinInListOptions(list);
+      this.#togglePinInListTop(list);
+      const listData = this.getListData(list);
+      handler(listData);
+    });
+  }
+
+  addHandlerTogglePinOnListTop(handler) {
+    this.todoSection.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("pinned-list-icon-top")) return;
 
       const list = this.#selectList(e.target);
       this.#togglePinInListOptions(list);

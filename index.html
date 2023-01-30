@@ -44,6 +44,10 @@
           <button class="btn-login">LOG IN</button>
           <i class="ph-user hidden user-icon"></i>
           <div class="user-dropdown-container hidden">
+            <div class="account-setting-container">
+              <i class="ph-gear-six"></i>
+              <span>Account Settings</span>
+            </div>
           <button class="btn-logout hidden">LOG OUT</button>
 
         </div>
@@ -156,6 +160,81 @@
           <input class="email-field-forgot-pass" type="email" >
           <button class="forgot-pass-btn">Send</button>
         </form>
+      </section>
+
+      <!-- Account Settings  -->
+      <section class="account-settings-section hidden">
+        <i class="ph-x close-settings-btn"></i>
+        <div class="account-settings-menu-container">
+          <div data-menu="name" class="account-settings-menu-item">
+            <span>Change Display Name</span>
+            <i class="ph-caret-right-bold"></i>
+          </div>
+          <div data-menu="email" class="account-settings-menu-item">
+            <span>Change Email Address</span>
+            <i class="ph-caret-right-bold"></i>
+          </div>
+          <div data-menu="password" class="account-settings-menu-item">
+            <span>Change Password</span>
+            <i class="ph-caret-right-bold"></i>
+          </div>
+        </div>
+        <div class="account-settings-container change-name-container">
+          <form class="change-name-form" data-form="change-name">
+            <label class="auth-label"
+              for="name">New display name</label>
+            <input class="auth-input change-name-field"
+            type="text"
+            required
+            name="name"
+            >
+            </input>
+            <button class="default-btn" type="submit">Save</button>
+          </form>
+        </div>
+        <div class="account-settings-container change-email-container hidden">
+          <form class="change-email-form" data-form="change-email">
+            <label class="auth-label"
+              for="password">Password</label>
+            <input class="auth-input password-field"
+            type="password"
+            required
+            name="password"
+            >
+            </input>
+            <label class="auth-label"
+              for="email">New email address</label>
+            <input class="auth-input change-email-field"
+            type="email"
+            required
+            name="email"
+            >
+            </input>
+            <button class="default-btn" type="submit">Save</button>
+          </form>
+        </div>
+        <div class="hidden account-settings-container change-password-container">
+          <form class="change-password-form" data-form="change-password">
+            <label class="auth-label"
+              for="old-password">Old password</label>
+            <input class="auth-input old-password-field"
+            type="password"
+            required
+            name="old-password"
+            >
+            </input>
+            <label class="auth-label"
+              for="new-password">New password</label>
+            <input class="auth-input new-password-field"
+            type="password"
+            required
+            name="new-password"
+            >
+            </input>
+            <button class="default-btn" type="submit">Save</button>
+          </form>
+        </div>
+
       </section>
     </main>
     <div class="overlay hidden"></div>

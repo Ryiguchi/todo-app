@@ -17,6 +17,9 @@ class HeaderView {
   layoutDropDownContainer = document.querySelector(
     ".layout-drop-down-container"
   );
+  #accountSettingsContainer = document.querySelector(
+    ".account-setting-container"
+  );
 
   constructor() {
     this.#addHandlerToggleMyLists();
@@ -141,6 +144,14 @@ class HeaderView {
       this.#closeAllLists("user");
       this.toggleUserDropdown();
       this.overlay.classList.remove("hidden");
+    });
+  }
+
+  addHandlerOpenAccountSettings(handler) {
+    this.#accountSettingsContainer.addEventListener("click", (e) => {
+      this.toggleUserDropdown();
+      this.#toggleOverlay();
+      handler();
     });
   }
 

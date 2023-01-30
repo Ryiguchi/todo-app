@@ -26,6 +26,7 @@ button {
   color: #fff;
 
   text-transform: uppercase;
+  letter-spacing: 1px;
   padding: 0.8rem 1.2rem;
 
   transition: all 0.3s;
@@ -164,7 +165,7 @@ header {
   border: none;
 }
 
-.user-container i {
+.user-container .ph-user {
   margin-right: 5rem;
   cursor: pointer;
 }
@@ -183,7 +184,6 @@ header {
   transform: translateX(50%);
   border: 1px solid #aaa;
   border-radius: 5px;
-  min-width: 12rem;
   min-height: 8rem;
   padding: 1rem;
   background-color: #fff;
@@ -192,6 +192,22 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  gap: 1rem;
+}
+
+.account-setting-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  width: max-content;
+  font-size: 1.6rem;
+
+  cursor: pointer;
+}
+
+.account-setting-container i {
+  font-size: 1.8rem;
 }
 
 /* Todo Section  */
@@ -432,6 +448,7 @@ main {
   padding: 5rem;
 
   border: 1px solid #888;
+  border-radius: 10px;
   box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.15);
   background-color: #fff;
 }
@@ -526,6 +543,68 @@ main {
   width: 10rem;
   margin-top: 2rem;
   align-self: flex-end;
+}
+
+/* Account Settings Section  */
+
+.account-settings-section {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+
+  width: fit-content;
+  margin: 12rem auto;
+  padding: 5rem;
+
+  border: 1px solid #888;
+  border-radius: 10px;
+  box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+}
+
+.account-settings-section .ph-x {
+  font-size: 2.4rem;
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+
+  cursor: pointer;
+}
+
+.account-settings-menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  font-size: 1.6rem;
+  min-width: 20rem;
+  width: 30%;
+}
+
+.account-settings-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  border-left: 1px solid #fff;
+  padding: 1.5rem 0 1rem 2rem;
+
+  cursor: pointer;
+}
+
+.account-settings-container {
+  min-width: 40rem;
+  height: 25rem;
+}
+
+.account-settings-container button {
+  margin-top: 4rem;
+  align-self: flex-end;
+  padding: 1rem 1.5rem;
 }
 
 /**/

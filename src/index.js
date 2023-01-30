@@ -5,6 +5,7 @@ import todoView from "./views/todoView.js";
 import signInView from "./views/signInView.js";
 import signUpView from "./views/signUpView.js";
 import forgotPassView from "./views/forgotPassView.js";
+import accountSettingsView from "./views/accountSettingsView.js";
 import * as model from "./model.js";
 import * as fireAuth from "./utilities/firebase.auth.utils.js";
 import * as firestore from "./utilities/firebase.store.utils.js";
@@ -31,9 +32,15 @@ const controlLogOutBtn = async () => {
   }
 };
 
-const controlCloseSection = () => {
+const closeAllSections = () => {
   signInView.hideSection();
   forgotPassView.hideSection();
+  accountSettingsView.hideSection();
+  todoView.hideTodoView();
+};
+
+const controlShowTodoSection = () => {
+  closeAllSections();
   todoView.showTodoView();
 };
 
@@ -132,6 +139,23 @@ const controlAddNewList = () => {
   if (auth.currentUser) todoView.addList();
 };
 
+const controlSaveNewName = (newName) => {
+  console.log(newName);
+};
+
+const controlSaveNewEmail = (newEmail, password) => {
+  console.log(newEmail, password);
+};
+
+const controlSaveNewPassword = (oldPassword, newPassword) => {
+  console.log(oldPassword, newPassword);
+};
+
+const controlOpenAccountSettings = () => {
+  closeAllSections();
+  accountSettingsView.showSection();
+};
+
 const init = () => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -147,25 +171,32 @@ const init = () => {
   headerView.addHandlerLogOutBtn(controlLogOutBtn);
   headerView.addHandlerDisplayChosenList(controlDisplayChosenList);
   headerView.addHandlerChangeGrid(controlChangeGrid);
+  headerView.addHandlerOpenAccountSettings(controlOpenAccountSettings);
 
-  signInView.addHandlerCloseSection(controlCloseSection);
+  signInView.addHandlerCloseSection(controlShowTodoSection);
   signUpView.addHandlerSignUpForm(controlSignUp);
   signInView.addHandlerSignInForm(controlSignIn);
   signInView.addHandlerGoogleSignIn(controlGoogleSignIn);
   signInView.addHandlerForgotPassBtn(controlForgotPassBtn);
 
   forgotPassView.addHandlerResetPass(controlResetPass);
-  forgotPassView.addHandlerCloseSection(controlCloseSection);
+  forgotPassView.addHandlerCloseSection(controlShowTodoSection);
 
   todoView.addHandlerSaveListOnFocusOut(controlSaveList);
   todoView.addHandlerChooseColor(controlSaveList);
   todoView.addHandlerDeleteList(controlDeleteList);
   todoView.addHandlerRemoveCheckedItems(controlSaveList);
-  todoView.addHandlerTogglePinOnList(controlSaveList);
+  todoView.addHandlerTogglePinInListOptions(controlSaveList);
+  todoView.addHandlerTogglePinOnListTop(controlSaveList);
   todoView.addHandlerAddNewList(controlAddNewList);
   todoView.addHandlerToggleCheckbox(controlSaveList);
   todoView.addHandlerRemoveListItem(controlSaveList);
   todoView.addHandlerCheckAllItems(controlSaveList);
+
+  accountSettingsView.addHandlerSaveNewName(controlSaveNewName);
+  accountSettingsView.addHandlerSaveNewEmail(controlSaveNewEmail);
+  accountSettingsView.addHandlerSaveNewPassword(controlSaveNewPassword);
+  accountSettingsView.addHandlerCloseSection(controlShowTodoSection);
 };
 
 init();
