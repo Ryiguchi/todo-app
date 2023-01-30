@@ -135,12 +135,17 @@ const controlChangeGrid = (numColumns) => {
 
 const controlAddNewList = () => {
   const auth = getAuth();
-  console.log(auth.currentUser);
   if (auth.currentUser) todoView.addList();
 };
 
-const controlSaveNewName = (newName) => {
-  console.log(newName);
+const controlSaveNewName = async (newName) => {
+  try {
+    await model.changeUserName(newName);
+    headerView.displayUserName(model.state.displayName);
+    accountSettingsView.alertResult("display name");
+  } catch (error) {
+    accountSettingsView.alertResult("error", error);
+  }
 };
 
 const controlSaveNewEmail = (newEmail, password) => {

@@ -66,6 +66,21 @@ export const saveUserOptionsToFirebase = async (userOptions) => {
       userOptions,
     });
   } catch (error) {
-    alert(error);
+    console.log(error);
+  }
+};
+
+export const changeUserDisplayName = async (displayName) => {
+  console.log(displayName);
+  const auth = getAuth();
+  if (!auth || !auth.currentUser) return;
+
+  const userDocRef = doc(db, "users", auth.currentUser.uid);
+  try {
+    await updateDoc(userDocRef, {
+      displayName,
+    });
+  } catch (error) {
+    throw new Error(error);
   }
 };

@@ -596,6 +596,10 @@ main {
   cursor: pointer;
 }
 
+.account-settings-menu-item:first-child {
+  border-left: 1px solid #333;
+}
+
 .account-settings-container {
   min-width: 40rem;
   height: 25rem;

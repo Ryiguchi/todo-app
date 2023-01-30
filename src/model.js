@@ -2,6 +2,7 @@ import {
   getUserData,
   saveListsToFirebase,
   saveUserOptionsToFirebase,
+  changeUserDisplayName,
 } from "./utilities/firebase.store.utils";
 
 export let state = {};
@@ -40,9 +41,8 @@ export const setUserState = async (user) => {
 
   state.currentUser = user;
   state.displayName = userData?.displayName ?? user.email;
-  state.userOptions = userData.userOptions;
+  state.userOptions = userData?.userOptions;
   state.lists = userData?.lists ?? [];
-  console.log(state);
 };
 
 export const updateList = (listData) => {
@@ -96,4 +96,17 @@ export const updateUserGridLayout = (numColumns) => {
   };
 
   saveUserOptionsToFirebase(state.userOptions);
+};
+
+export const changeUserName = async (newName) => {
+  try {
+    await changeUserDisplayName(newName);
+  } catch (error) {
+    throw new Error(error);
+  }
+
+  state = {
+    ...state,
+    displayName: newName,
+  };
 };

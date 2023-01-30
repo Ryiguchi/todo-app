@@ -38,6 +38,11 @@ class AccountSettingsView extends AuthView {
     this.section.classList.remove("hidden");
   }
 
+  alertResult(type, error = null) {
+    if (type !== "error") alert(`Your ${type} was successfully updated!`);
+    if (type === "error") alert("error", error);
+  }
+
   #displaySelectedMenu(selectedItem) {
     const menu = selectedItem.dataset.menu;
     this.#settingsContainers.forEach((el) => el.classList.add("hidden"));
