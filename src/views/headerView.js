@@ -64,8 +64,25 @@ class HeaderView {
     this.myListsUl.innerHTML = "";
     let markup = "";
     lists.forEach((list) => {
+      if (!list.pinned) return;
       markup += `
-        <li data-id="${list.id}">${list.title}</li>
+        <li class="my-list-item-li" data-id="${list.id}">
+          <div class="my-list-items-container">
+            ${list.title}
+            <i class="ph-push-pin-fill"></i>
+          </div>
+        </li>
+      `;
+    });
+
+    lists.forEach((list) => {
+      if (list.pinned) return;
+      markup += `
+        <li class="my-list-item-li" data-id="${list.id}">
+          <div class="my-list-items-container">
+            ${list.title}
+          </div>
+        </li>
       `;
     });
 
@@ -158,7 +175,7 @@ class HeaderView {
 
   addHandlerDisplayChosenList(handler) {
     this.myListsUl.addEventListener("click", (e) => {
-      const id = e.target.dataset.id;
+      const id = e.target.closest(".my-list-item-li").dataset.id;
       if (id === "-1") return;
       this.toggleMyLists();
       this.#toggleOverlay();

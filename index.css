@@ -146,6 +146,13 @@ header {
   list-style: none;
 }
 
+.my-list-items-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
 .my-lists-container li {
   font-size: 1.6rem;
   padding: 0.4rem 1.2rem;

@@ -38,8 +38,8 @@ export const todoItem = `
               </div>
             </div>
             <div class="list-options-item list-option-pin ">
-              <i class="ph-push-pin hidden list-options-pin-icon"></i>
-              <i class="ph-push-pin-fill list-options-pin-icon "></i>
+              <i class="ph-push-pin  list-options-pin-icon"></i>
+              <i class="ph-push-pin-fill hidden list-options-pin-icon "></i>
               <span>Pin List</span>
             </div>
             <div class="list-options-item list-option-check-all-items">

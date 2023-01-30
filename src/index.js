@@ -100,11 +100,6 @@ const manageCurrentUser = async () => {
   }
 };
 
-// const controlShowPinnedLists = () => {
-//   console.log("here");
-
-// };
-
 const controlSaveList = (listData) => {
   if (listData.id) {
     model.updateList(listData);

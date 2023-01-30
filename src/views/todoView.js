@@ -189,8 +189,12 @@ class TodoView {
               </div>
             </div>
             <div class="list-options-item list-option-pin ">
-              <i class="ph-push-pin hidden list-options-pin-icon"></i>
-              <i class="ph-push-pin-fill list-options-pin-icon "></i>
+              <i class="ph-push-pin ${
+                pinned && "hidden"
+              } list-options-pin-icon"></i>
+              <i class="ph-push-pin-fill list-options-pin-icon ${
+                !pinned && "hidden"
+              }"></i>
               <span>Pin List</span>
             </div>
             <div class="list-options-item list-option-check-all-items">
