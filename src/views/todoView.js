@@ -80,7 +80,10 @@ class TodoView {
   }
 
   removeItem(item) {
-    if (item.previousElementSibling) {
+    if (
+      item.previousElementSibling ||
+      item.nextElementSibling?.classList.contains("todo-item-container")
+    ) {
       item.remove();
     }
     if (item.previousElementSibling === null) {
@@ -318,6 +321,7 @@ class TodoView {
     listsData.forEach((listData) => {
       this.renderSelectedList(listData);
     });
+    this.#spanExtraRowsIfBig();
   }
 
   // Handlers

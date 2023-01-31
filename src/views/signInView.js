@@ -1,6 +1,5 @@
 "use strict";
 
-import { doc } from "@firebase/firestore";
 import AuthView from "./authView.js";
 
 class SignInView extends AuthView {
@@ -18,25 +17,7 @@ class SignInView extends AuthView {
     super();
 
     this.addHandlerInputFields();
-  }
-
-  handleError(error) {
-    switch (error.message) {
-      case "auth/user-not-found":
-        alert("There was no account found that matches the entered email.");
-        return;
-
-      case "auth/wrong-password":
-        alert("Wrong password. Try again.");
-        return;
-      case "auth/popup-closed-by-user":
-        alert(
-          "Login was unsuccessful because the popup was closed by the user."
-        );
-
-      default:
-        alert(`There was a problem signing you in. Please try again! ${error}`);
-    }
+    this.addHandlerLabelShrinkOnBlur();
   }
 
   showSignInMessage(result, error = null) {

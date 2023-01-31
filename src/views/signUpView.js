@@ -14,6 +14,7 @@ class SignUpView extends AuthView {
   constructor() {
     super();
     this.addHandlerInputFields();
+    this.addHandlerLabelShrinkOnBlur();
   }
 
   handleErrors(error) {

@@ -1,8 +1,12 @@
 import {
+  firebaseChangeUserEmail,
+  firebaseReauthenticateUser,
+} from "./utilities/firebase.auth.utils";
+import {
   getUserData,
-  saveListsToFirebase,
-  saveUserOptionsToFirebase,
-  changeUserDisplayName,
+  firebaseSaveLists,
+  firebaseSaveUserOptions,
+  firebaseChangeUserDisplayName,
 } from "./utilities/firebase.store.utils";
 
 export let state = {};
@@ -57,7 +61,7 @@ export const updateList = (listData) => {
     lists: [...updatedLists],
   };
 
-  saveListsToFirebase(state);
+  firebaseSaveLists(state);
 };
 
 export const saveNewList = (listData) => {
@@ -69,7 +73,7 @@ export const saveNewList = (listData) => {
     lists: [...newLists],
   };
 
-  saveListsToFirebase(state);
+  firebaseSaveLists(state);
 
   return id;
 };
@@ -83,7 +87,7 @@ export const deleteList = (id) => {
     lists: [...updatedList],
   };
 
-  saveListsToFirebase(state);
+  firebaseSaveLists(state);
 };
 
 export const updateUserGridLayout = (numColumns) => {
@@ -95,12 +99,12 @@ export const updateUserGridLayout = (numColumns) => {
     },
   };
 
-  saveUserOptionsToFirebase(state.userOptions);
+  firebaseSaveUserOptions(state.userOptions);
 };
 
-export const changeUserName = async (newName) => {
+export const changeUserDisplayName = async (newName) => {
   try {
-    await changeUserDisplayName(newName);
+    await firebaseChangeUserDisplayName(newName);
   } catch (error) {
     throw new Error(error);
   }

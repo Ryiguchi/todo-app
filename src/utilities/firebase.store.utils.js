@@ -42,7 +42,7 @@ export const createUserDocumentFromAuth = async (user, name = null) => {
   }
 };
 
-export const saveListsToFirebase = async (state) => {
+export const firebaseSaveLists = async (state) => {
   const auth = getAuth();
   if (!auth || !auth.currentUser) return;
 
@@ -56,7 +56,7 @@ export const saveListsToFirebase = async (state) => {
   }
 };
 
-export const saveUserOptionsToFirebase = async (userOptions) => {
+export const firebaseSaveUserOptions = async (userOptions) => {
   const auth = getAuth();
   if (!auth || !auth.currentUser) return;
 
@@ -70,8 +70,7 @@ export const saveUserOptionsToFirebase = async (userOptions) => {
   }
 };
 
-export const changeUserDisplayName = async (displayName) => {
-  console.log(displayName);
+export const firebaseChangeUserDisplayName = async (displayName) => {
   const auth = getAuth();
   if (!auth || !auth.currentUser) return;
 

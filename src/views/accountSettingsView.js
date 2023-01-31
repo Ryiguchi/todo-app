@@ -2,6 +2,7 @@ import AuthView from "./authView";
 
 class AccountSettingsView extends AuthView {
   section = document.querySelector(".account-settings-section");
+  page = document.querySelector(".account-settings-section");
   #menuContainer = document.querySelector(".account-settings-menu-container");
   #settingsMenuItems = document.querySelectorAll(".account-settings-menu-item");
   #settingsContainers = document.querySelectorAll(
@@ -26,21 +27,24 @@ class AccountSettingsView extends AuthView {
   constructor() {
     super();
     this.addHandlerInputFields();
+    this.addHandlerLabelShrinkOnBlur();
     this.#addHandlerSelectMenuItem();
   }
 
-  hideSection() {
-    this.section.classList.add("hidden");
-    this.clearInputFields();
-  }
+  // hideSection() {
+  //   this.section.classList.add("hidden");
+  //   this.clearInputFields();
+  // }
 
-  showSection() {
-    this.section.classList.remove("hidden");
-  }
+  // showSection() {
+  //   this.section.classList.remove("hidden");
+  // }
 
   alertResult(type, error = null) {
     if (type !== "error") alert(`Your ${type} was successfully updated!`);
-    if (type === "error") alert("error", error);
+    if (type === "error") this.handleError(error);
+    // auth/too-many-requests
+    // auth/wrong-password
   }
 
   #displaySelectedMenu(selectedItem) {
@@ -57,6 +61,8 @@ class AccountSettingsView extends AuthView {
     menu === "password" &&
       this.#changePasswordContainer.classList.remove("hidden");
   }
+
+  //Handlers
 
   #addHandlerSelectMenuItem() {
     this.#menuContainer.addEventListener("click", (e) => {

@@ -12,7 +12,7 @@ import * as firestore from "./utilities/firebase.store.utils.js";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
 
 const controlLogInBtn = () => {
-  todoView.hideTodoView();
+  closeAllSections();
   signInView.showAuthSection();
 };
 
@@ -45,9 +45,9 @@ const controlShowTodoSection = () => {
 };
 
 const signInSuccess = async () => {
-  await manageCurrentUser();
   signInView.hideSection();
   todoView.showTodoView();
+  await manageCurrentUser();
 };
 
 const controlSignUp = async (name, email, password) => {
@@ -103,7 +103,7 @@ const manageCurrentUser = async () => {
     headerView.renderMyLists(model.state.lists);
     const pinnedListsData = model.selectPinnedLists();
     todoView.showPinnedLists(pinnedListsData);
-    todoView.changeGridLayout(model.state.userOptions.layout);
+    todoView.changeGridLayout(model.state.userOptions?.layout);
   }
 };
 
@@ -140,7 +140,7 @@ const controlAddNewList = () => {
 
 const controlSaveNewName = async (newName) => {
   try {
-    await model.changeUserName(newName);
+    await model.changeUserDisplayName(newName);
     headerView.displayUserName(model.state.displayName);
     accountSettingsView.alertResult("display name");
   } catch (error) {
@@ -148,12 +148,24 @@ const controlSaveNewName = async (newName) => {
   }
 };
 
-const controlSaveNewEmail = (newEmail, password) => {
-  console.log(newEmail, password);
+const controlSaveNewEmail = async (newEmail, password) => {
+  try {
+    const currentUser = await fireAuth.reauthenticateUser(password);
+    await fireAuth.changeUserEmail(newEmail, currentUser);
+    accountSettingsView.alertResult("email");
+  } catch (error) {
+    accountSettingsView.alertResult("error", error);
+  }
 };
 
-const controlSaveNewPassword = (oldPassword, newPassword) => {
-  console.log(oldPassword, newPassword);
+const controlSaveNewPassword = async (oldPassword, newPassword) => {
+  try {
+    const currentUser = await fireAuth.reauthenticateUser(oldPassword);
+    await fireAuth.changeUserPassword(newPassword, currentUser);
+    accountSettingsView.alertResult("password");
+  } catch (error) {
+    accountSettingsView.alertResult("error", error);
+  }
 };
 
 const controlOpenAccountSettings = () => {

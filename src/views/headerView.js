@@ -1,20 +1,17 @@
 "use strict";
-
-import { doc } from "@firebase/firestore";
-
 class HeaderView {
   #header = document.querySelector("header");
-  layoutIcon = document.querySelector(".layout-icon");
-  myLists = document.querySelector(".my-lists-title-container");
-  myListsContainer = document.querySelector(".my-lists-container");
-  btnLogIn = document.querySelector(".btn-login");
-  btnLogOut = document.querySelector(".btn-logout");
-  userIcon = document.querySelector(".user-icon");
-  userDropDown = document.querySelector(".user-dropdown-container");
-  displayName = document.querySelector(".display-name");
-  overlay = document.querySelector(".overlay");
-  myListsUl = document.querySelector(".my-lists-container ul");
-  layoutDropDownContainer = document.querySelector(
+  #layoutIcon = document.querySelector(".layout-icon");
+  #myLists = document.querySelector(".my-lists-title-container");
+  #myListsContainer = document.querySelector(".my-lists-container");
+  #btnLogIn = document.querySelector(".btn-login");
+  #btnLogOut = document.querySelector(".btn-logout");
+  #userIcon = document.querySelector(".user-icon");
+  #userDropDown = document.querySelector(".user-dropdown-container");
+  #displayName = document.querySelector(".display-name");
+  #overlay = document.querySelector(".overlay");
+  #myListsUl = document.querySelector(".my-lists-container ul");
+  #layoutDropDownContainer = document.querySelector(
     ".layout-drop-down-container"
   );
   #accountSettingsContainer = document.querySelector(
@@ -22,11 +19,66 @@ class HeaderView {
   );
 
   constructor() {
+    this.#addHandlerToggleLayoutMenu();
     this.#addHandlerToggleMyLists();
-    this.#addHandlerUserIcon();
+    this.#addHandlerToggleUserDropdown();
     this.#addHandlerOverlay();
-    this.#addHandlerOpenLayoutMenu();
-    this.#addHandlerClickOnHeaderToCloseDropDowns();
+    this.#addHandlerClickOnHeaderToCloseDropDownMenus();
+  }
+
+  #toggleLayoutDropDownMenu() {
+    this.#layoutDropDownContainer.classList.toggle("hidden");
+  }
+
+  #toggleMyLists() {
+    this.#myListsContainer.classList.toggle("hidden");
+  }
+
+  #toggleUserDropdown() {
+    this.#userDropDown.classList.toggle("hidden");
+  }
+
+  #hideUserIcon() {
+    this.#userIcon.classList.add("hidden");
+  }
+
+  #closeAllLists(activeMenu) {
+    if (activeMenu !== "user") this.#userDropDown.classList.add("hidden");
+    if (activeMenu !== "lists") this.#myListsContainer.classList.add("hidden");
+    if (activeMenu !== "layout")
+      this.#layoutDropDownContainer.classList.add("hidden");
+  }
+
+  #toggleOverlay() {
+    this.#overlay.classList.toggle("hidden");
+  }
+
+  displayUserName(name) {
+    this.#displayName.textContent = name;
+  }
+
+  clearUserName() {
+    this.#displayName.textContent = "Log in to get started!";
+  }
+
+  showUserIcon() {
+    this.#userIcon.classList.remove("hidden");
+  }
+
+  showLogOutBtn() {
+    this.#btnLogIn.classList.add("hidden");
+    this.#btnLogOut.classList.remove("hidden");
+  }
+
+  showLogInBtn() {
+    this.#btnLogOut.classList.add("hidden");
+    this.#btnLogIn.classList.remove("hidden");
+  }
+
+  clearMyLists() {
+    this.#myListsUl.innerHTML = `
+      <li data-id="-1">Log in to see your lists</li>
+    `;
   }
 
   signOutMessage(result, error = null) {
@@ -41,30 +93,8 @@ class HeaderView {
     }
   }
 
-  displayUserName(name) {
-    this.displayName.textContent = name;
-  }
-
-  clearUserName() {
-    this.displayName.textContent = "Log in to get started!";
-  }
-
-  showLogOutBtn() {
-    this.btnLogIn.classList.add("hidden");
-    this.btnLogOut.classList.remove("hidden");
-  }
-
-  showLogInBtn() {
-    this.btnLogOut.classList.add("hidden");
-    this.btnLogIn.classList.remove("hidden");
-  }
-
-  toggleUserDropdown() {
-    this.userDropDown.classList.toggle("hidden");
-  }
-
   renderMyLists(lists) {
-    this.myListsUl.innerHTML = "";
+    this.#myListsUl.innerHTML = "";
     let markup = "";
     lists.forEach((list) => {
       if (!list.pinned) return;
@@ -72,7 +102,7 @@ class HeaderView {
         <li class="my-list-item-li" data-id="${list.id}">
           <div class="my-list-items-container">
             ${list.title}
-            <i class="ph-push-pin-fill"></i>
+            <i class="ph-push-pin"></i>
           </div>
         </li>
       `;
@@ -89,124 +119,89 @@ class HeaderView {
       `;
     });
 
-    this.myListsUl.insertAdjacentHTML("afterbegin", markup);
-  }
-
-  clearMyLists() {
-    this.myListsUl.innerHTML = `
-      <li data-id="-1">Log in to see your lists</li>
-    `;
-  }
-
-  toggleMyLists() {
-    this.myListsContainer.classList.toggle("hidden");
-  }
-
-  toggleLayoutDropDownMenu() {
-    this.layoutDropDownContainer.classList.toggle("hidden");
-  }
-
-  toggleUserIcon() {
-    this.userIcon.classList.toggle("hidden");
-  }
-
-  showUserIcon() {
-    this.userIcon.classList.remove("hidden");
-  }
-
-  hideUserIcon() {
-    this.userIcon.classList.add("hidden");
-  }
-
-  #toggleOverlay() {
-    this.overlay.classList.toggle("hidden");
-  }
-
-  #closeAllLists(activeMenu) {
-    if (activeMenu !== "user") this.userDropDown.classList.add("hidden");
-    if (activeMenu !== "lists") this.myListsContainer.classList.add("hidden");
-    if (activeMenu !== "layout")
-      this.layoutDropDownContainer.classList.add("hidden");
+    this.#myListsUl.insertAdjacentHTML("afterbegin", markup);
   }
 
   // Handlers
 
-  #addHandlerToggleMyLists() {
-    this.myLists.addEventListener("click", () => {
-      this.#closeAllLists("lists");
-      this.toggleMyLists();
-      this.overlay.classList.remove("hidden");
+  #addHandlerToggleLayoutMenu() {
+    this.#layoutIcon.addEventListener("click", () => {
+      this.#closeAllLists("layout");
+      this.#toggleLayoutDropDownMenu();
+      this.#toggleOverlay();
     });
   }
 
-  #addHandlerUserIcon() {
-    this.userIcon.addEventListener("click", () => {
+  #addHandlerToggleMyLists() {
+    this.#myLists.addEventListener("click", () => {
+      this.#closeAllLists("lists");
+      this.#toggleMyLists();
+      this.#toggleOverlay();
+    });
+  }
+
+  #addHandlerToggleUserDropdown() {
+    this.#userIcon.addEventListener("click", () => {
       this.#closeAllLists("user");
-      this.toggleUserDropdown();
-      this.overlay.classList.remove("hidden");
+      this.#toggleUserDropdown();
+      this.#toggleOverlay();
+    });
+  }
+
+  #addHandlerClickOnHeaderToCloseDropDownMenus() {
+    this.#header.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("header")) return;
+
+      this.#closeAllLists();
+    });
+  }
+
+  #addHandlerOverlay() {
+    this.#overlay.addEventListener("click", () => {
+      this.#closeAllLists();
+      this.#toggleOverlay();
+    });
+  }
+
+  addHandlerChangeGrid(handler) {
+    this.#layoutDropDownContainer.addEventListener("click", (e) => {
+      // gets the chosen number of columns
+      const numColumns = e.target.dataset.grid;
+      this.#toggleOverlay();
+      this.#toggleLayoutDropDownMenu();
+      handler(numColumns);
+    });
+  }
+
+  addHandlerDisplayChosenList(handler) {
+    this.#myListsUl.addEventListener("click", (e) => {
+      const listId = e.target.closest(".my-list-item-li").dataset.id;
+      // "listId = -1", is the "log in to see your lists" id
+      if (listId === "-1") return;
+      this.#toggleMyLists();
+      this.#toggleOverlay();
+      handler(listId);
     });
   }
 
   addHandlerOpenAccountSettings(handler) {
     this.#accountSettingsContainer.addEventListener("click", (e) => {
-      this.toggleUserDropdown();
+      this.#toggleUserDropdown();
       this.#toggleOverlay();
       handler();
-    });
-  }
-
-  #addHandlerOverlay() {
-    this.overlay.addEventListener("click", () => {
-      this.#closeAllLists();
-      this.#toggleOverlay();
-    });
-  }
-
-  #addHandlerOpenLayoutMenu() {
-    this.layoutIcon.addEventListener("click", () => {
-      this.#closeAllLists("layout");
-      this.toggleLayoutDropDownMenu();
-      this.#toggleOverlay();
     });
   }
 
   addHandlerLogInBtn(handler) {
-    this.btnLogIn.addEventListener("click", () => {
-      handler();
-    });
+    this.#btnLogIn.addEventListener("click", handler);
   }
 
   addHandlerLogOutBtn(handler) {
-    this.btnLogOut.addEventListener("click", () => {
-      this.toggleUserDropdown();
-      this.hideUserIcon();
+    this.#btnLogOut.addEventListener("click", () => {
+      this.#toggleUserDropdown();
+      this.#hideUserIcon();
+      this.#toggleOverlay();
       handler();
-    });
-  }
-
-  addHandlerDisplayChosenList(handler) {
-    this.myListsUl.addEventListener("click", (e) => {
-      const id = e.target.closest(".my-list-item-li").dataset.id;
-      if (id === "-1") return;
-      this.toggleMyLists();
-      this.#toggleOverlay();
-      handler(id);
-    });
-  }
-
-  addHandlerChangeGrid(handler) {
-    this.layoutDropDownContainer.addEventListener("click", (e) => {
-      const numColumns = e.target.dataset.grid;
-      this.#toggleOverlay();
-      this.toggleLayoutDropDownMenu();
-      handler(numColumns);
-    });
-  }
-
-  #addHandlerClickOnHeaderToCloseDropDowns() {
-    this.#header.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("header")) return;
-      this.#closeAllLists();
     });
   }
 }

@@ -4,23 +4,34 @@ class ForgotPassView extends AuthView {
   section = document.querySelector(".forgot-pass-section");
   page = document.querySelector(".forgot-pass-section");
   closeBtn = document.querySelector(".close-forgot-pass-btn");
-  emailField = document.querySelector(".email-field-forgot-pass");
+  #emailField = document.querySelector(".email-field-forgot-pass");
+  #form = document.querySelector(".forgot-pass-section form");
 
-  form = document.querySelector(".forgot-pass-section form");
   constructor() {
     super();
     this.addHandlerInputFields();
+    this.addHandlerLabelShrinkOnBlur();
   }
 
+  // Helpers
+  #getEmail() {
+    return this.#emailField.value;
+  }
+
+  #clearEmailField() {
+    this.#emailField.value = "";
+  }
+
+  // showSection() {
+  //   this.section.classList.remove("hidden");
+  // }
+
+  // Methods
   handleError(error) {
     switch (error) {
       default:
         alert(`A problem occurred. Please try again. ${error}`);
     }
-  }
-
-  showSection() {
-    this.section.classList.remove("hidden");
   }
 
   showMessage(result, error = null) {
@@ -29,12 +40,14 @@ class ForgotPassView extends AuthView {
     if (result === "error") this.handleError(error);
   }
 
+  // Handlers
   addHandlerResetPass(handler) {
-    this.form.addEventListener("submit", (e) => {
+    this.#form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const email = this.emailField.value;
+
+      const email = this.#getEmail();
       handler(email);
-      this.emailField.value = "";
+      this.#clearEmailField();
     });
   }
 }
