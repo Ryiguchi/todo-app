@@ -7,12 +7,15 @@ class ChangeProfilePictureView {
   #userImg = document.querySelector(".user-img");
   #zoomNumInput = document.querySelector(".zoom-num-input");
   #zoomRangeInput = document.querySelector(".zoom-range-input");
+  #urlInput = document.querySelector(".url-input");
   #changeBtn = document.querySelector(".change-btn");
   #acceptBtn = document.querySelector(".accept-btn");
   #resetBtn = document.querySelector(".reset-btn");
   #cancelBtn = document.querySelector(".cancel-btn");
+  #submitBtn = document.querySelector(".url-submit-btn");
   #editBtnsContainer = document.querySelector(".edit-btns-container");
   #editInputsContainer = document.querySelector(".edit-inputs-container");
+  #urlInputUploadContainer = document.querySelector(".img-url-input-container");
 
   #zoomValue = 100;
   #offsetX = 0;
@@ -26,6 +29,7 @@ class ChangeProfilePictureView {
     this.#addHandlerAdjustPicture();
     this.#addHandlerChangePictureButton();
     this.#addHandlerResetImg();
+    this.#addHandlerSubmitUrl();
   }
 
   #showEditMode() {
@@ -34,7 +38,10 @@ class ChangeProfilePictureView {
     this.#circleEditContainer.classList.add("hidden");
     this.#editBtnsContainer.classList.remove("hidden");
     this.#changeBtn.classList.add("hidden");
+    this.#submitBtn.classList.add("hidden");
+    this.#acceptBtn.classList.remove("hidden");
     this.#editInputsContainer.classList.remove("hidden");
+    this.#urlInputUploadContainer.classList.add("hidden");
   }
 
   #showPictureMode() {
@@ -43,6 +50,7 @@ class ChangeProfilePictureView {
     this.#editBtnsContainer.classList.add("hidden");
     this.#changeBtn.classList.remove("hidden");
     this.#editInputsContainer.classList.add("hidden");
+    this.#urlInputUploadContainer.classList.add("hidden");
   }
 
   #showUploadMode() {
@@ -50,9 +58,13 @@ class ChangeProfilePictureView {
     this.#pictureCircle.classList.remove("dragover");
     this.#pictureCircle.classList.remove("edit-mode-circle");
     this.#pictureFrame.classList.remove("picture-mode-frame");
+    this.#urlInputUploadContainer.classList.remove("hidden");
     this.#circleEditContainer.classList.remove("hidden");
     this.#editBtnsContainer.classList.remove("hidden");
     this.#changeBtn.classList.add("hidden");
+    this.#acceptBtn.classList.add("hidden");
+    this.#submitBtn.classList.remove("hidden");
+
     this.#editInputsContainer.classList.add("hidden");
     this.#resetUserImageSrc();
   }
@@ -102,6 +114,7 @@ class ChangeProfilePictureView {
 
     this.#zoomNumInput.value = 100;
     this.#zoomRangeInput.value = 100;
+    this.#urlInput.value = "";
   }
 
   // Handlers
@@ -130,6 +143,7 @@ class ChangeProfilePictureView {
   #addHandlerDrop() {
     this.#pictureCircle.addEventListener("drop", (e) => {
       e.preventDefault();
+      console.log(e.dataTransfer.getData("Text"));
       try {
         const imgUrl = e.dataTransfer.getData("Text");
         this.#userImg.src = imgUrl;
@@ -225,6 +239,16 @@ class ChangeProfilePictureView {
     this.#cancelBtn.addEventListener("click", () => {
       this.#resetImgValues();
       handler();
+    });
+  }
+
+  #addHandlerSubmitUrl() {
+    this.#submitBtn.addEventListener("click", () => {
+      const url = this.#urlInput.value;
+      console.log(url);
+      this.#userImg.src = url;
+      this.#userImg.style.transform = "none";
+      this.#showEditMode();
     });
   }
 }

@@ -708,6 +708,27 @@ main {
   margin-top: 1rem;
 }
 
+.img-url-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.url-submit-btn {
+  margin: 0 !important;
+  align-self: center !important;
+}
+
+.url-input {
+  width: 80%;
+  height: 3rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 3px;
+}
+
 .edit-inputs-container {
   display: flex;
   flex-direction: column;

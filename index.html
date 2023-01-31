@@ -213,18 +213,21 @@
                 <i class="ph-plus "></i>
                 <h2>Drag and drop</h2>
                 <h2>your picture here</h2>
-                <h2>or</h2>
-                <button class="">Upload</button>
               </div>
             </div>           
           </div>   
+          <div class="img-url-input-container hidden">
+            <input type="file">
+            <input class="url-input" type="url" name="url" placeholder="https://example.com" required>
+          </div>
           <div class="edit-inputs-container">
             <input class="zoom-num-input" type="number" min="100" max="400" value="0">
             <input class="zoom-range-input" type="range" min="100" max="400" step="5" value="0">
           </div>
           <div class="button-container">
-          <button class="change-btn hidden">Change</button>
-          <div class="edit-btns-container">
+            <button class="change-btn hidden">Change</button>
+            <div class="edit-btns-container">
+            <button class="url-submit-btn">Submit</button>
             <button class="accept-btn">Accept</button>
             <button class="reset-btn">Reset</button>
             <button class="cancel-btn">Cancel</button>

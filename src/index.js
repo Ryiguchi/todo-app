@@ -27,6 +27,8 @@ const controlLogOutBtn = async () => {
     headerView.signOutUser();
     todoView.clearTodoLists();
     changeProfilePictureView.clearProfilePicture();
+    closeAllSections();
+    todoView.showTodoView();
   } catch (error) {
     headerView.signOutMessage("error", error);
   }
