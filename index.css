@@ -183,6 +183,7 @@ header {
   border-radius: 50%;
   border: 1px solid #aaa;
   cursor: pointer;
+  box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.15), 2px 2px 3px rgba(0, 0, 0, 0.15);
 
   overflow: hidden;
 }
@@ -644,7 +645,7 @@ main {
   position: relative;
   width: 25rem;
   height: 25rem;
-
+  box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2), 5px 5px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   /* can have "edit-mode-frame" */
 }
