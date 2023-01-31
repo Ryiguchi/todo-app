@@ -42,18 +42,25 @@
         <div class="user-container">
           <span class="display-name"></span>
           <button class="btn-login">LOG IN</button>
-          <i class="ph-user hidden user-icon"></i>
+          <div class="user-profile-container hidden">
+            <div class="user-img-header-container hidden">
+              <img class="user-img-header " src="//:0">
+            </div>
+            <i class="ph-user user-icon"></i>
+          </div>
+
           <div class="user-dropdown-container hidden">
             <div class="account-setting-container">
               <i class="ph-gear-six"></i>
               <span>Account Settings</span>
             </div>
-          <button class="btn-logout hidden">LOG OUT</button>
+          <button class="btn-logout">LOG OUT</button>
 
         </div>
       </div>
     </header>
 
+    <!-- Todo Section -->
     <main>
       <section class="todo-section">
 
@@ -163,11 +170,15 @@
       </section>
 
       <!-- Account Settings  -->
-      <section class="account-settings-section hidden">
+      <section class="account-settings-section hidden ">
         <i class="ph-x close-settings-btn"></i>
         <div class="account-settings-menu-container">
           <div data-menu="name" class="account-settings-menu-item">
             <span>Change Display Name</span>
+            <i class="ph-caret-right-bold"></i>
+          </div>
+          <div data-menu="picture" class="account-settings-menu-item">
+            <span>Change Profile Picture</span>
             <i class="ph-caret-right-bold"></i>
           </div>
           <div data-menu="email" class="account-settings-menu-item">
@@ -179,6 +190,7 @@
             <i class="ph-caret-right-bold"></i>
           </div>
         </div>
+        
         <div class="account-settings-container change-name-container">
           <form class="change-name-form" data-form="change-name">
             <label class="auth-label"
@@ -192,6 +204,34 @@
             <button class="default-btn" type="submit">Save</button>
           </form>
         </div>
+
+        <div class="account-settings-container change-picture-container hidden">
+          <div class="change-picture-outer-frame">  
+            <img class="user-img" src="//:0">
+            <div class="change-picture-circle dropzone">
+              <div class="circle-edit-container">
+                <i class="ph-plus "></i>
+                <h2>Drag and drop</h2>
+                <h2>your picture here</h2>
+                <h2>or</h2>
+                <button class="">Upload</button>
+              </div>
+            </div>           
+          </div>   
+          <div class="edit-inputs-container">
+            <input class="zoom-num-input" type="number" min="100" max="400" value="0">
+            <input class="zoom-range-input" type="range" min="100" max="400" step="5" value="0">
+          </div>
+          <div class="button-container">
+          <button class="change-btn hidden">Change</button>
+          <div class="edit-btns-container">
+            <button class="accept-btn">Accept</button>
+            <button class="reset-btn">Reset</button>
+            <button class="cancel-btn">Cancel</button>
+          </div>
+          </div>
+        </div>
+
         <div class="account-settings-container change-email-container hidden">
           <form class="change-email-form" data-form="change-email">
             <label class="auth-label"
@@ -213,6 +253,7 @@
             <button class="default-btn" type="submit">Save</button>
           </form>
         </div>
+
         <div class="hidden account-settings-container change-password-container">
           <form class="change-password-form" data-form="change-password">
             <label class="auth-label"

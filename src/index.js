@@ -6,6 +6,7 @@ import signInView from "./views/signInView.js";
 import signUpView from "./views/signUpView.js";
 import forgotPassView from "./views/forgotPassView.js";
 import accountSettingsView from "./views/accountSettingsView.js";
+import changeProfilePictureView from "./views/changeProfilePictureView.js";
 import * as model from "./model.js";
 import * as fireAuth from "./utilities/firebase.auth.utils.js";
 import * as firestore from "./utilities/firebase.store.utils.js";
@@ -23,10 +24,9 @@ const controlLogOutBtn = async () => {
   try {
     await fireAuth.signOutUser();
     model.clearCurrentUser();
-    headerView.clearUserName();
-    headerView.showLogInBtn();
-    headerView.clearMyLists();
+    headerView.signOutUser();
     todoView.clearTodoLists();
+    changeProfilePictureView.clearProfilePicture();
   } catch (error) {
     headerView.signOutMessage("error", error);
   }
@@ -97,10 +97,8 @@ const manageCurrentUser = async () => {
   const user = await fireAuth.getCurrentUser();
   if (user) {
     await model.setUserState(user);
-    headerView.displayUserName(model.state.displayName);
-    headerView.showUserIcon();
-    headerView.showLogOutBtn();
-    headerView.renderMyLists(model.state.lists);
+    headerView.setCurrentUser(model.state);
+    changeProfilePictureView.setProfilePictureState(model.state.imgData);
     const pinnedListsData = model.selectPinnedLists();
     todoView.showPinnedLists(pinnedListsData);
     todoView.changeGridLayout(model.state.userOptions?.layout);
@@ -173,6 +171,21 @@ const controlOpenAccountSettings = () => {
   accountSettingsView.showSection();
 };
 
+const controlSaveUserPicture = async (imgData) => {
+  changeProfilePictureView.setProfilePicture(imgData);
+  headerView.setProfilePicture(imgData);
+  try {
+    await model.updateProfilePicture(imgData);
+    accountSettingsView.alertResult("profile picture");
+  } catch (error) {
+    accountSettingsView.alertResult("error", error);
+  }
+};
+
+const controlCancelChangeProfilePic = () => {
+  changeProfilePictureView.setProfilePictureState(model.state.imgData);
+};
+
 const init = () => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -214,6 +227,11 @@ const init = () => {
   accountSettingsView.addHandlerSaveNewEmail(controlSaveNewEmail);
   accountSettingsView.addHandlerSaveNewPassword(controlSaveNewPassword);
   accountSettingsView.addHandlerCloseSection(controlShowTodoSection);
+
+  changeProfilePictureView.addHandlerAcceptPicture(controlSaveUserPicture);
+  changeProfilePictureView.addHandlerCancelChange(
+    controlCancelChangeProfilePic
+  );
 };
 
 init();

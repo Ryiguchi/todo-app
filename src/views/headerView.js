@@ -17,6 +17,9 @@ class HeaderView {
   #accountSettingsContainer = document.querySelector(
     ".account-setting-container"
   );
+  #userImgContainer = document.querySelector(".user-img-header-container");
+  #userImg = document.querySelector(".user-img-header");
+  #userProfileContainer = document.querySelector(".user-profile-container");
 
   constructor() {
     this.#addHandlerToggleLayoutMenu();
@@ -65,13 +68,19 @@ class HeaderView {
     this.#userIcon.classList.remove("hidden");
   }
 
-  showLogOutBtn() {
+  #hideUserProfileContainer() {
+    this.#userProfileContainer.classList.add("hidden");
+  }
+
+  #showUserProfileContainer() {
+    this.#userProfileContainer.classList.remove("hidden");
+  }
+
+  hideLogInBtn() {
     this.#btnLogIn.classList.add("hidden");
-    this.#btnLogOut.classList.remove("hidden");
   }
 
   showLogInBtn() {
-    this.#btnLogOut.classList.add("hidden");
     this.#btnLogIn.classList.remove("hidden");
   }
 
@@ -122,6 +131,39 @@ class HeaderView {
     this.#myListsUl.insertAdjacentHTML("afterbegin", markup);
   }
 
+  setProfilePicture(imgData = null) {
+    this.#showUserProfileContainer();
+    if (!imgData) {
+      this.showUserIcon();
+      return;
+    }
+    this.#userIcon.classList.add("hidden");
+    this.#userImgContainer.classList.remove("hidden");
+
+    const { zoom, x, y, url } = imgData;
+    const scaledX = x * (4 / 25);
+    const scaledY = y * (4 / 25);
+
+    this.#userImgContainer.classList.remove("hidden");
+    this.#userImg.src = url;
+    this.#userImg.style.transform = `scale(${zoom}%) translate(${scaledX}px, ${scaledY}px)`;
+  }
+
+  signOutUser() {
+    this.clearUserName();
+    this.showLogInBtn();
+    this.clearMyLists();
+    this.#hideUserProfileContainer();
+  }
+
+  setCurrentUser(state) {
+    const { imgData, lists, displayName } = state;
+    this.displayUserName(displayName);
+    this.setProfilePicture(imgData);
+    this.renderMyLists(lists);
+    this.hideLogInBtn();
+  }
+
   // Handlers
 
   #addHandlerToggleLayoutMenu() {
@@ -141,7 +183,7 @@ class HeaderView {
   }
 
   #addHandlerToggleUserDropdown() {
-    this.#userIcon.addEventListener("click", () => {
+    this.#userProfileContainer.addEventListener("click", () => {
       this.#closeAllLists("user");
       this.#toggleUserDropdown();
       this.#toggleOverlay();

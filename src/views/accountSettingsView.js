@@ -8,8 +8,9 @@ class AccountSettingsView extends AuthView {
   #settingsContainers = document.querySelectorAll(
     ".account-settings-container"
   );
-  #changeEmailContainer = document.querySelector(".change-email-container");
   #changeNameContainer = document.querySelector(".change-name-container");
+  #changePictureContainer = document.querySelector(".change-picture-container");
+  #changeEmailContainer = document.querySelector(".change-email-container");
   #changePasswordContainer = document.querySelector(
     ".change-password-container"
   );
@@ -31,20 +32,9 @@ class AccountSettingsView extends AuthView {
     this.#addHandlerSelectMenuItem();
   }
 
-  // hideSection() {
-  //   this.section.classList.add("hidden");
-  //   this.clearInputFields();
-  // }
-
-  // showSection() {
-  //   this.section.classList.remove("hidden");
-  // }
-
   alertResult(type, error = null) {
     if (type !== "error") alert(`Your ${type} was successfully updated!`);
     if (type === "error") this.handleError(error);
-    // auth/too-many-requests
-    // auth/wrong-password
   }
 
   #displaySelectedMenu(selectedItem) {
@@ -60,6 +50,9 @@ class AccountSettingsView extends AuthView {
 
     menu === "password" &&
       this.#changePasswordContainer.classList.remove("hidden");
+
+    menu === "picture" &&
+      this.#changePictureContainer.classList.remove("hidden");
   }
 
   //Handlers

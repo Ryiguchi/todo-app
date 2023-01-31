@@ -31,6 +31,7 @@ export const createUserDocumentFromAuth = async (user, name = null) => {
     try {
       await setDoc(userDocRef, {
         displayName,
+        imgData: {},
         email,
         createdAt,
         userOptions: {},
@@ -52,7 +53,7 @@ export const firebaseSaveLists = async (state) => {
       lists: state.lists,
     });
   } catch (error) {
-    alert(error);
+    throw new Error(error.code);
   }
 };
 
@@ -66,7 +67,7 @@ export const firebaseSaveUserOptions = async (userOptions) => {
       userOptions,
     });
   } catch (error) {
-    console.log(error);
+    throw new Error(error.code);
   }
 };
 
@@ -81,5 +82,19 @@ export const firebaseChangeUserDisplayName = async (displayName) => {
     });
   } catch (error) {
     throw new Error(error);
+  }
+};
+
+export const firebaseUpdateProfilePicture = async (imgData) => {
+  const auth = getAuth();
+  if (!auth || !auth.currentUser) return;
+
+  try {
+    const userDocRef = doc(db, "users", auth.currentUser.uid);
+    await updateDoc(userDocRef, {
+      imgData,
+    });
+  } catch (error) {
+    throw new Error(error.code);
   }
 };

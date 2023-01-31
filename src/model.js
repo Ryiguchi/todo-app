@@ -7,6 +7,7 @@ import {
   firebaseSaveLists,
   firebaseSaveUserOptions,
   firebaseChangeUserDisplayName,
+  firebaseUpdateProfilePicture,
 } from "./utilities/firebase.store.utils";
 
 export let state = {};
@@ -47,6 +48,7 @@ export const setUserState = async (user) => {
   state.displayName = userData?.displayName ?? user.email;
   state.userOptions = userData?.userOptions;
   state.lists = userData?.lists ?? [];
+  state.imgData = userData?.imgData;
 };
 
 export const updateList = (listData) => {
@@ -105,12 +107,23 @@ export const updateUserGridLayout = (numColumns) => {
 export const changeUserDisplayName = async (newName) => {
   try {
     await firebaseChangeUserDisplayName(newName);
+    state = {
+      ...state,
+      displayName: newName,
+    };
   } catch (error) {
     throw new Error(error);
   }
+};
 
-  state = {
-    ...state,
-    displayName: newName,
-  };
+export const updateProfilePicture = async (imgData) => {
+  try {
+    await firebaseUpdateProfilePicture(imgData);
+    state = {
+      ...state,
+      imgData,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
 };
