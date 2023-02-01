@@ -230,9 +230,8 @@ header {
 /* Todo Section  */
 
 main {
-  margin-top: 8rem;
   max-width: 120rem;
-  margin: 0 auto;
+  margin: 8rem auto;
 }
 
 .todo-section {
@@ -252,7 +251,7 @@ main {
   flex-direction: column;
   max-width: 50rem;
   min-width: 30rem;
-  width: fit-content;
+  /* width: fit-content; */
   height: fit-content;
   background-color: #fff;
   border-radius: 10px;
