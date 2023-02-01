@@ -159,6 +159,7 @@ class ChangeProfilePictureView {
     this.#uploadFileInput.addEventListener("change", (e) => {
       const file = e.target.files;
       const imgUrl = URL.createObjectURL(file[0]);
+      console.log(imgUrl);
 
       this.#userImg.src = imgUrl;
       this.#uploadedFile = file[0];

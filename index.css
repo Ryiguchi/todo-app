@@ -232,6 +232,7 @@ header {
 main {
   margin-top: 8rem;
   max-width: 120rem;
+  margin: 0 auto;
 }
 
 .todo-section {
