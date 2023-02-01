@@ -191,7 +191,7 @@ header {
 .user-img-header {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .user-dropdown-container {
@@ -641,20 +641,16 @@ main {
   gap: 1rem;
 }
 
-.change-picture-outer-frame {
+.picture-outer-frame,
+.select-outer-frame {
   position: relative;
   width: 25rem;
   height: 25rem;
   box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2), 5px 5px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  /* can have "edit-mode-frame" */
 }
 
-.edit-mode-frame {
-  border: 1px solid #aaa;
-}
-
-.picture-mode-frame {
+.picture-mode {
   border-radius: 50%;
   border: 7px double #555;
 }
@@ -662,12 +658,13 @@ main {
 .user-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 
   transform: none;
 }
 
-.change-picture-circle {
+.select-picture-circle,
+.edit-picture-circle {
   position: absolute;
   top: 0;
   right: 0;
@@ -675,14 +672,16 @@ main {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 1px dashed #888;
-  /* can have class "edit-mode-circle", "upload-mode-circle"*/
 }
 
-.edit-mode-circle {
+.edit-picture-circle {
   background-color: transparent;
   border: 3px dashed #eee;
   cursor: grab;
+}
+
+.select-picture-circle {
+  border: 1px dashed #888;
 }
 
 .circle-edit-container {
@@ -708,7 +707,7 @@ main {
   margin-top: 1rem;
 }
 
-.img-url-input-container {
+.select-img-inputs-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -729,7 +728,7 @@ main {
   border-radius: 3px;
 }
 
-.edit-inputs-container {
+.edit-img-inputs-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;

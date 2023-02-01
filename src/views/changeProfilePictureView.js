@@ -1,25 +1,34 @@
 "use strict";
 
 class ChangeProfilePictureView {
-  #pictureCircle = document.querySelector(".change-picture-circle");
+  #selectCircle = document.querySelector(".select-picture-circle");
+  #editCircle = document.querySelector(".edit-picture-circle");
   #circleEditContainer = document.querySelector(".circle-edit-container");
-  #pictureFrame = document.querySelector(".change-picture-outer-frame");
+  #outerFrames = document.querySelectorAll(".change-picture-outer-frame");
+  #pictureFrame = document.querySelector(".picture-outer-frame");
+  #selectFrame = document.querySelector(".select-outer-frame");
   #userImg = document.querySelector(".user-img");
+  #allInputsContainers = document.querySelectorAll(".inputs-container");
   #zoomNumInput = document.querySelector(".zoom-num-input");
   #zoomRangeInput = document.querySelector(".zoom-range-input");
+  #uploadFileInput = document.querySelector(".upload-file-input");
   #urlInput = document.querySelector(".url-input");
+  #uploadBtn = document.querySelector(".upload-btn");
+  #allBtns = document.querySelectorAll(".button-container button");
   #changeBtn = document.querySelector(".change-btn");
   #acceptBtn = document.querySelector(".accept-btn");
   #resetBtn = document.querySelector(".reset-btn");
   #cancelBtn = document.querySelector(".cancel-btn");
   #submitBtn = document.querySelector(".url-submit-btn");
-  #editBtnsContainer = document.querySelector(".edit-btns-container");
-  #editInputsContainer = document.querySelector(".edit-inputs-container");
-  #urlInputUploadContainer = document.querySelector(".img-url-input-container");
+  #selectInputsContainer = document.querySelector(
+    ".select-img-inputs-container"
+  );
+  #editInputsContainer = document.querySelector(".edit-img-inputs-container");
 
   #zoomValue = 100;
   #offsetX = 0;
   #offsetY = 0;
+  #uploadedFile = null;
 
   constructor() {
     this.#addHandlerDragEnter();
@@ -30,56 +39,68 @@ class ChangeProfilePictureView {
     this.#addHandlerChangePictureButton();
     this.#addHandlerResetImg();
     this.#addHandlerSubmitUrl();
+    this.#addHandlerUploadFile();
+    this.#addHandlerOpenSelectFileWindow();
   }
 
-  #showEditMode() {
-    this.#pictureCircle.classList.remove("dragover");
-    this.#pictureCircle.classList.add("edit-mode-circle");
+  #changeMode(mode) {
+    this.#allBtns.forEach((btn) => btn.classList.add("hidden"));
+    this.#allInputsContainers.forEach((container) =>
+      container.classList.add("hidden")
+    );
+    this.#editCircle.classList.add("hidden");
+    this.#selectCircle.classList.add("hidden");
+    this.#outerFrames.forEach((frame) => frame.classList.add("hidden"));
+    this.#pictureFrame.classList.remove("picture-mode");
     this.#circleEditContainer.classList.add("hidden");
-    this.#editBtnsContainer.classList.remove("hidden");
-    this.#changeBtn.classList.add("hidden");
-    this.#submitBtn.classList.add("hidden");
-    this.#acceptBtn.classList.remove("hidden");
-    this.#editInputsContainer.classList.remove("hidden");
-    this.#urlInputUploadContainer.classList.add("hidden");
-  }
 
-  #showPictureMode() {
-    this.#pictureCircle.classList.add("hidden");
-    this.#pictureFrame.classList.add("picture-mode-frame");
-    this.#editBtnsContainer.classList.add("hidden");
-    this.#changeBtn.classList.remove("hidden");
-    this.#editInputsContainer.classList.add("hidden");
-    this.#urlInputUploadContainer.classList.add("hidden");
-  }
+    if (mode === "picture") {
+      this.#changeBtn.classList.remove("hidden");
+      this.#pictureFrame.classList.remove("hidden");
+      this.#pictureFrame.classList.add("picture-mode");
+    }
+    if (mode === "select") {
+      this.#cancelBtn.classList.remove("hidden");
+      this.#selectInputsContainer.classList.remove("hidden");
+      this.#selectFrame.classList.remove("hidden");
+      this.#selectCircle.classList.remove("hidden");
 
-  #showUploadMode() {
-    this.#pictureCircle.classList.remove("hidden");
-    this.#pictureCircle.classList.remove("dragover");
-    this.#pictureCircle.classList.remove("edit-mode-circle");
-    this.#pictureFrame.classList.remove("picture-mode-frame");
-    this.#urlInputUploadContainer.classList.remove("hidden");
-    this.#circleEditContainer.classList.remove("hidden");
-    this.#editBtnsContainer.classList.remove("hidden");
-    this.#changeBtn.classList.add("hidden");
-    this.#acceptBtn.classList.add("hidden");
-    this.#submitBtn.classList.remove("hidden");
+      this.#circleEditContainer.classList.remove("hidden");
+      this.#resetUserImageSrc();
+    }
+    if (mode === "edit") {
+      this.#acceptBtn.classList.remove("hidden");
+      this.#resetBtn.classList.remove("hidden");
+      this.#cancelBtn.classList.remove("hidden");
 
-    this.#editInputsContainer.classList.add("hidden");
-    this.#resetUserImageSrc();
+      this.#editInputsContainer.classList.remove("hidden");
+      this.#editCircle.classList.remove("hidden");
+
+      this.#pictureFrame.classList.remove("hidden");
+      this.#circleEditContainer.classList.remove("hidden");
+    }
   }
 
   #resetUserImageSrc() {
     this.#userImg.src = "//:0";
   }
 
+  #resetUserImageFile() {
+    this.#uploadedFile = null;
+  }
+
+  resetChangeProfileView() {
+    this.#uploadedFile = "";
+    this.#changeMode("picture");
+  }
+
   setProfilePictureState(imgData = null) {
     if (!imgData || !imgData?.url) {
-      this.#showUploadMode();
+      this.#changeMode("select");
       return;
     }
     if (imgData.url) {
-      this.#showPictureMode();
+      this.#changeMode("picture");
       this.setProfilePicture(imgData);
     }
   }
@@ -101,7 +122,7 @@ class ChangeProfilePictureView {
   }
 
   setProfilePicture(imgData) {
-    this.#showPictureMode();
+    this.#changeMode("picture");
     const { url, x, y, zoom } = imgData;
     this.#userImg.src = url;
     this.#userImg.style.transform = `scale(${zoom}%) translate(${x}px, ${y}px)`;
@@ -117,38 +138,64 @@ class ChangeProfilePictureView {
     this.#urlInput.value = "";
   }
 
+  #getImgValues() {
+    return {
+      zoom: this.#zoomValue,
+      x: this.#offsetX,
+      y: this.#offsetY,
+      url: this.#userImg.src,
+    };
+  }
+
   // Handlers
 
+  #addHandlerOpenSelectFileWindow() {
+    this.#uploadBtn.addEventListener("click", () => {
+      this.#uploadFileInput.click();
+    });
+  }
+
+  #addHandlerUploadFile() {
+    this.#uploadFileInput.addEventListener("change", (e) => {
+      const file = e.target.files;
+      const imgUrl = URL.createObjectURL(file[0]);
+
+      this.#userImg.src = imgUrl;
+      this.#uploadedFile = file[0];
+      this.#userImg.style.transform = "none";
+      this.#changeMode("edit");
+    });
+  }
+
   #addHandlerDragEnter() {
-    this.#pictureCircle.addEventListener("dragenter", (e) => {
+    this.#selectCircle.addEventListener("dragenter", (e) => {
       e.preventDefault();
-      this.#pictureCircle.classList.add("dragover");
+      this.#selectCircle.classList.add("dragover");
     });
   }
 
   #addHandlerDragOver() {
-    this.#pictureCircle.addEventListener("dragover", (e) => {
+    this.#selectCircle.addEventListener("dragover", (e) => {
       e.preventDefault();
     });
   }
 
   #addHandlerDragleave() {
-    this.#pictureCircle.addEventListener("dragleave", (e) => {
+    this.#selectCircle.addEventListener("dragleave", (e) => {
       e.preventDefault();
       if (e.relatedTarget?.closest(".dropzone")) return;
-      this.#pictureCircle.classList.remove("dragover");
+      this.#selectCircle.classList.remove("dragover");
     });
   }
 
   #addHandlerDrop() {
-    this.#pictureCircle.addEventListener("drop", (e) => {
+    this.#selectCircle.addEventListener("drop", (e) => {
       e.preventDefault();
-      console.log(e.dataTransfer.getData("Text"));
       try {
         const imgUrl = e.dataTransfer.getData("Text");
         this.#userImg.src = imgUrl;
         this.#userImg.style.transform = "none";
-        this.#showEditMode();
+        this.#changeMode("edit");
       } catch (error) {
         alert(
           'The image was either invalid or you didn"t have permission to use it.'
@@ -210,21 +257,17 @@ class ChangeProfilePictureView {
 
   addHandlerAcceptPicture(handler) {
     this.#acceptBtn.addEventListener("click", () => {
-      const imgValues = {
-        zoom: this.#zoomValue,
-        x: this.#offsetX,
-        y: this.#offsetY,
-        url: this.#userImg.src,
-      };
+      const imgValues = this.#getImgValues();
       this.#resetImgValues();
-      handler(imgValues);
+      handler(imgValues, this.#uploadedFile);
+      this.#resetUserImageFile();
     });
   }
 
   #addHandlerChangePictureButton() {
     this.#changeBtn.addEventListener("click", () => {
       this.#resetImgValues();
-      this.#showUploadMode();
+      this.#changeMode("select");
     });
   }
 
@@ -238,6 +281,7 @@ class ChangeProfilePictureView {
   addHandlerCancelChange(handler) {
     this.#cancelBtn.addEventListener("click", () => {
       this.#resetImgValues();
+      this.#resetUserImageFile();
       handler();
     });
   }
@@ -245,10 +289,9 @@ class ChangeProfilePictureView {
   #addHandlerSubmitUrl() {
     this.#submitBtn.addEventListener("click", () => {
       const url = this.#urlInput.value;
-      console.log(url);
       this.#userImg.src = url;
       this.#userImg.style.transform = "none";
-      this.#showEditMode();
+      this.#changeMode("edit");
     });
   }
 }

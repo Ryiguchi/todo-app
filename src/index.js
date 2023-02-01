@@ -43,6 +43,7 @@ const closeAllSections = () => {
 
 const controlShowTodoSection = () => {
   closeAllSections();
+  changeProfilePictureView.resetChangeProfileView();
   todoView.showTodoView();
 };
 
@@ -96,15 +97,16 @@ const controlResetPass = async (email) => {
 };
 
 const manageCurrentUser = async () => {
-  const user = await fireAuth.getCurrentUser();
-  if (user) {
-    await model.setUserState(user);
+  try {
+    const user = await fireAuth.getCurrentUser();
+    if (!user) return;
+    const userData = await model.setUserState(user);
     headerView.setCurrentUser(model.state);
     changeProfilePictureView.setProfilePictureState(model.state.imgData);
     const pinnedListsData = model.selectPinnedLists();
     todoView.showPinnedLists(pinnedListsData);
     todoView.changeGridLayout(model.state.userOptions?.layout);
-  }
+  } catch (error) {}
 };
 
 const controlSaveList = (listData) => {
@@ -173,11 +175,12 @@ const controlOpenAccountSettings = () => {
   accountSettingsView.showSection();
 };
 
-const controlSaveUserPicture = async (imgData) => {
+const controlSaveUserPicture = async (imgData, imgFile) => {
   changeProfilePictureView.setProfilePicture(imgData);
   headerView.setProfilePicture(imgData);
   try {
-    await model.updateProfilePicture(imgData);
+    await model.updateProfilePicture(imgData, imgFile);
+    if (imgFile) await model.setUploadedImgUrlToState(imgFile);
     accountSettingsView.alertResult("profile picture");
   } catch (error) {
     accountSettingsView.alertResult("error", error);

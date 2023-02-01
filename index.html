@@ -206,32 +206,35 @@
         </div>
 
         <div class="account-settings-container change-picture-container hidden">
-          <div class="change-picture-outer-frame">  
-            <img class="user-img" src="//:0">
-            <div class="change-picture-circle dropzone">
+          <div class="change-picture-outer-frame picture-outer-frame ">
+            <img data-file="" class="user-img" src="//:0">
+            <div class="edit-picture-circle"></div>
+          </div>
+          <div class="change-picture-outer-frame select-outer-frame hidden">  
+            <div class="select-picture-circle dropzone">
               <div class="circle-edit-container">
                 <i class="ph-plus "></i>
                 <h2>Drag and drop</h2>
                 <h2>your picture here</h2>
+                <h2>or</h2>
+                <button class="upload-btn">Upload</button>
               </div>
             </div>           
           </div>   
-          <div class="img-url-input-container hidden">
-            <input type="file">
-            <input class="url-input" type="url" name="url" placeholder="https://example.com" required>
+          <div class="select-img-inputs-container inputs-container hidden">
+            <input class="upload-file-input hidden" type="file">
+            <input class="url-input hidden" type="url" name="url" placeholder="https://example.com" required>
           </div>
-          <div class="edit-inputs-container">
+          <div class="edit-img-inputs-container inputs-container">
             <input class="zoom-num-input" type="number" min="100" max="400" value="0">
             <input class="zoom-range-input" type="range" min="100" max="400" step="5" value="0">
           </div>
           <div class="button-container">
-            <button class="change-btn hidden">Change</button>
-            <div class="edit-btns-container">
-            <button class="url-submit-btn">Submit</button>
-            <button class="accept-btn">Accept</button>
-            <button class="reset-btn">Reset</button>
-            <button class="cancel-btn">Cancel</button>
-          </div>
+            <button class="change-btn">Change</button>
+            <button class="url-submit-btn hidden">Submit</button>
+            <button class="accept-btn hidden">Save</button>
+            <button class="reset-btn hidden">Reset</button>
+            <button class="cancel-btn hidden">Cancel</button>
           </div>
         </div>
 

@@ -1,14 +1,12 @@
 import {
-  firebaseChangeUserEmail,
-  firebaseReauthenticateUser,
-} from "./utilities/firebase.auth.utils";
-import {
   getUserData,
   firebaseSaveLists,
   firebaseSaveUserOptions,
   firebaseChangeUserDisplayName,
-  firebaseUpdateProfilePicture,
+  getUserUid,
+  firebaseUpdateImgData,
 } from "./utilities/firebase.store.utils";
+import { uploadImg } from "./utilities/firebase.storage.utils";
 
 export let state = {};
 
@@ -42,13 +40,17 @@ export const clearCurrentUser = () => {
 
 export const setUserState = async (user) => {
   if (!user) return;
-  const userData = await getUserData(user);
-
-  state.currentUser = user;
-  state.displayName = userData?.displayName ?? user.email;
-  state.userOptions = userData?.userOptions;
-  state.lists = userData?.lists ?? [];
-  state.imgData = userData?.imgData;
+  try {
+    const userData = await getUserData(user);
+    state.currentUser = user;
+    state.displayName = userData?.displayName ?? user.email;
+    state.userOptions = userData?.userOptions;
+    state.lists = userData?.lists ?? [];
+    state.imgData = userData?.imgData;
+    return userData;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const updateList = (listData) => {
@@ -116,9 +118,28 @@ export const changeUserDisplayName = async (newName) => {
   }
 };
 
-export const updateProfilePicture = async (imgData) => {
+export const updateProfilePicture = async (imgData, imgFile) => {
   try {
-    await firebaseUpdateProfilePicture(imgData);
+    await firebaseUpdateImgData(imgData);
+    state = {
+      ...state,
+      imgData,
+      imgFile,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const setUploadedImgUrlToState = async (imgFile) => {
+  try {
+    const userUid = getUserUid();
+    const imgUrl = await uploadImg(imgFile, userUid);
+    const imgData = {
+      ...state.imgData,
+      url: imgUrl,
+    };
+    await firebaseUpdateImgData(imgData);
     state = {
       ...state,
       imgData,

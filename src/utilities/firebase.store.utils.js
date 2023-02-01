@@ -85,7 +85,7 @@ export const firebaseChangeUserDisplayName = async (displayName) => {
   }
 };
 
-export const firebaseUpdateProfilePicture = async (imgData) => {
+export const firebaseUpdateImgData = async (imgData) => {
   const auth = getAuth();
   if (!auth || !auth.currentUser) return;
 
@@ -97,4 +97,11 @@ export const firebaseUpdateProfilePicture = async (imgData) => {
   } catch (error) {
     throw new Error(error.code);
   }
+};
+
+export const getUserUid = () => {
+  const auth = getAuth();
+  const { currentUser } = auth;
+  if (!auth || !currentUser) return;
+  return currentUser.uid;
 };
