@@ -19,7 +19,6 @@ button {
   border: none;
   border: 1px solid #333;
   border-radius: 5px;
-  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.2);
   width: fit-content;
 
   background-color: #333;
@@ -29,14 +28,23 @@ button {
   letter-spacing: 1px;
   padding: 0.8rem 1.2rem;
 
-  transition: all 0.3s;
+  transition: all 0.2s;
 
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #fff;
-  color: #333;
+  /* background-color: #fff;
+  color: #333; */
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+button:active {
+  /* background-color: #fff;
+  color: #333; */
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
 }
 
 form {
@@ -59,6 +67,7 @@ form label {
 }
 
 form input {
+  height: 2rem;
   font-size: 1.6rem;
   border: none;
   border-bottom: 1px solid #333;
@@ -511,8 +520,8 @@ main {
 }
 
 .google-btn:hover {
-  color: blue;
-  background-color: #fff;
+  /* color: blue;
+  background-color: #fff; */
 }
 
 .reset-password-container {
