@@ -1,25 +1,23 @@
 "use strict";
 class HeaderView {
   #header = document.querySelector("header");
-  #layoutIcon = document.querySelector(".layout-icon");
-  #myLists = document.querySelector(".my-lists-title-container");
-  #myListsContainer = document.querySelector(".my-lists-container");
-  #btnLogIn = document.querySelector(".btn-login");
-  #btnLogOut = document.querySelector(".btn-logout");
-  #userIcon = document.querySelector(".user-icon");
-  #userDropDown = document.querySelector(".user-dropdown-container");
-  #displayName = document.querySelector(".display-name");
+  #layoutIcon = document.querySelector(".header__icon--layout");
+  #myLists = document.querySelector(".header__my-lists-container");
+  #myListsContainer = document.querySelector(".my-lists-menu");
+  #btnLogIn = document.querySelector(".header__btn--login");
+  #btnLogOut = document.querySelector(".header__btn--logout");
+  #userIcon = document.querySelector(".header__user-icon");
+  #userDropDown = document.querySelector(".user-menu");
+  #displayName = document.querySelector(".header__display-name");
   #overlay = document.querySelector(".overlay");
-  #myListsUl = document.querySelector(".my-lists-container ul");
-  #layoutDropDownContainer = document.querySelector(
-    ".layout-drop-down-container"
+  #myListsUl = document.querySelector(".my-lists-menu__list");
+  #layoutDropDownContainer = document.querySelector(".layout-menu");
+  #accountSettingsContainer = document.querySelector(".user-menu");
+  #userImgContainer = document.querySelector(".header__user-img-container");
+  #userImg = document.querySelector(".header__user-img");
+  #userProfileContainer = document.querySelector(
+    ".header__user-profile-container"
   );
-  #accountSettingsContainer = document.querySelector(
-    ".account-setting-container"
-  );
-  #userImgContainer = document.querySelector(".user-img-header-container");
-  #userImg = document.querySelector(".user-img-header");
-  #userProfileContainer = document.querySelector(".user-profile-container");
 
   constructor() {
     this.#addHandlerToggleLayoutMenu();
@@ -38,6 +36,7 @@ class HeaderView {
   }
 
   #toggleUserDropdown() {
+    console.log("here");
     this.#userDropDown.classList.toggle("hidden");
   }
 
@@ -108,10 +107,10 @@ class HeaderView {
     lists.forEach((list) => {
       if (!list.pinned) return;
       markup += `
-        <li class="my-list-item-li" data-id="${list.id}">
-          <div class="my-list-items-container">
+        <li class="my-lists-menu__item" data-id="${list.id}">
+          <div class="my-lists-menu__item-container">
             ${list.title}
-            <i class="ph-push-pin"></i>
+            <i class="ph-push-pin my-lists-menu__icon"></i>
           </div>
         </li>
       `;
@@ -120,8 +119,8 @@ class HeaderView {
     lists.forEach((list) => {
       if (list.pinned) return;
       markup += `
-        <li class="my-list-item-li" data-id="${list.id}">
-          <div class="my-list-items-container">
+        <li class="my-lists-menu__item" data-id="${list.id}">
+          <div class="my-lists-menu__item-container">
             ${list.title}
           </div>
         </li>
@@ -183,7 +182,7 @@ class HeaderView {
   }
 
   #addHandlerToggleUserDropdown() {
-    this.#userProfileContainer.addEventListener("click", () => {
+    this.#userProfileContainer.addEventListener("click", (e) => {
       this.#closeAllLists("user");
       this.#toggleUserDropdown();
       this.#toggleOverlay();
@@ -195,6 +194,7 @@ class HeaderView {
       if (!e.target.classList.contains("header")) return;
 
       this.#closeAllLists();
+      this.#toggleOverlay();
     });
   }
 
@@ -217,7 +217,7 @@ class HeaderView {
 
   addHandlerDisplayChosenList(handler) {
     this.#myListsUl.addEventListener("click", (e) => {
-      const listId = e.target.closest(".my-list-item-li").dataset.id;
+      const listId = e.target.closest(".my-lists-menu__item").dataset.id;
       // "listId = -1", is the "log in to see your lists" id
       if (listId === "-1") return;
       this.#toggleMyLists();
@@ -240,9 +240,7 @@ class HeaderView {
 
   addHandlerLogOutBtn(handler) {
     this.#btnLogOut.addEventListener("click", () => {
-      this.#toggleUserDropdown();
       this.#hideUserIcon();
-      this.#toggleOverlay();
       handler();
     });
   }

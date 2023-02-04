@@ -1,0 +1,21 @@
+.layout-menu {
+  position: absolute;
+  top: 6.3rem;
+  left: 2rem;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.layout-menu__icon {
+  border-bottom: 1px solid #aaa;
+  padding: 1rem 1.6rem;
+}
+
+.layout-menu__icon:last-child {
+  border-bottom: none;
+}

@@ -1,0 +1,14 @@
+main {
+  max-width: 120rem;
+  margin: 8rem auto;
+}
+
+.todo-section {
+  width: fit-content;
+
+  display: grid;
+  grid-template-rows: repeat(auto, 10px);
+  gap: 1rem;
+  margin: 3rem auto;
+  padding: 3rem 2rem;
+}

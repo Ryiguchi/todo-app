@@ -1,11 +1,11 @@
 import AuthView from "./authView";
 
 class ForgotPassView extends AuthView {
-  section = document.querySelector(".forgot-pass-section");
-  page = document.querySelector(".forgot-pass-section");
-  closeBtn = document.querySelector(".close-forgot-pass-btn");
-  #emailField = document.querySelector(".email-field-forgot-pass");
-  #form = document.querySelector(".forgot-pass-section form");
+  section = document.querySelector(".forgot-password__section");
+  page = document.querySelector(".forgot-password__section");
+  closeBtn = document.querySelector(".forgot-password__icon--close");
+  #emailField = document.querySelector(".form__input__forgot");
+  #form = document.querySelector(".form--forgot");
 
   constructor() {
     super();

@@ -1,0 +1,71 @@
+.btn {
+  border: none;
+  border: 1px solid #333;
+  border-radius: 5px;
+  width: fit-content;
+
+  background-color: #333;
+  color: #fff;
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.8rem 1.2rem;
+
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  /* background-color: #fff;
+  color: #333; */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.btn:active {
+  /* background-color: #fff;
+  color: #333; */
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.auth__btn {
+  min-width: 13rem;
+  margin-top: 1rem;
+}
+
+.auth__btn--google {
+  color: #fff;
+  background-color: blue;
+  border: 1px solid blue;
+}
+
+/* .auth__btn--google:hover {
+  color: blue;
+  background-color: #fff;
+} */
+
+.forgot__btn {
+  width: 10rem;
+  margin-top: 2rem;
+  align-self: flex-end;
+}
+
+.settings__btn {
+  margin-top: 4rem;
+  align-self: flex-end;
+  padding: 1rem 1.5rem;
+}
+
+.settings__btn--upload {
+  margin: 0;
+  align-self: center;
+  font-size: 1.2rem;
+  padding: 0.4rem 0.8rem;
+  margin-top: 1rem;
+}
+
+/* .url-submit-btn {
+  margin: 0 !important;
+  align-self: center !important;
+} */
