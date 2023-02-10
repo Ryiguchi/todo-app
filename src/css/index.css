@@ -1,11 +1,11 @@
-@import "../css/base/_base.css";
-@import "../css/base/_typography.css";
-@import "../css/base/_utilities.css";
+@import "../css/base/_base";
+@import "../css/base/_typography";
+@import "../css/base/_utilities";
 
-@import "../css/pages/_forgot-password.css";
-@import "../css/pages/_settings.css";
-@import "../css/pages/_sign-in.css";
-@import "../css/pages/_todo.css";
+@import "_forgot-password.css";
+@import "_settings.css";
+@import "_sign-in.css";
+@import "_todo.css";
 
 @import "../css/components/_button.css";
 @import "../css/components/_change-picture.css";
