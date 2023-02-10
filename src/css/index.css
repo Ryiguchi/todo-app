@@ -1,21 +1,21 @@
-@import "../css/base/_base";
-@import "../css/base/_typography";
-@import "../css/base/_utilities";
+@import "_base.css";
+@import "_typography.css";
+@import "_utilities.css";
 
 @import "_forgot-password.css";
 @import "_settings.css";
 @import "_sign-in.css";
 @import "_todo.css";
 
-@import "../css/components/_button.css";
-@import "../css/components/_change-picture.css";
-@import "../css/components/_form.css";
-@import "../css/components/_header.css";
-@import "../css/components/_layout-menu.css";
-@import "../css/components/_list-options.css";
-@import "../css/components/_my-list-menu.css";
-@import "../css/components/_todo-list.css";
-@import "../css/components/_settings-menu.css";
-@import "../css/components/_task.css";
-@import "../css/components/_todo-list.css";
-@import "../css/components/_user-menu.css";
+@import "_button.css";
+@import "_change-picture.css";
+@import "_form.css";
+@import "_header.css";
+@import "_layout-menu.css";
+@import "_list-options.css";
+@import "_my-list-menu.css";
+@import "_todo-list.css";
+@import "_settings-menu.css";
+@import "_task.css";
+@import "_todo-list.css";
+@import "_user-menu.css";
