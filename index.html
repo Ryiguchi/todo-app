@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Mukta&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./src/css/index.css" />
     <script src="https://unpkg.com/phosphor-icons"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
 
@@ -20,41 +20,43 @@
   </head>
   <body>
     <header class="header" >
-      <div class="header-left-container">
-
-        <i class="ph-layout layout-icon"></i>
-        <div class="layout-drop-down-container hidden">
-          <i data-grid="1" class="ph-dots-three-vertical-bold layout-drop-down-item "></i>
-          <i data-grid="2" class="ph-dots-six-vertical-bold layout-drop-down-item "></i>
-          <i data-grid="3" class="ph-dots-nine-bold layout-drop-down-item "></i>
+      <div class="header__left-container">
+        
+        <i class="ph-layout header__icon--layout"></i>
+        <div class="layout-menu hidden">
+          <i data-grid="1" class="ph-dots-three-vertical-bold layout-menu__icon layout-menu__icon--1 "></i>
+          <i data-grid="2" class="ph-dots-six-vertical-bold layout-menu__icon layout-menu__icon--2"></i>
+          <i data-grid="3" class="ph-dots-nine-bold layout-menu__icon layout-menu__icon--3"></i>
         </div>
-        <div class="my-lists-title-container">
-          <div class="my-lists-text">My Lists</div>
+
+        <div class="header__my-lists-container">
+          <div class="header__my-lists-text">My Lists</div>
           <i class="ph-caret-down"></i>
         </div>
-        <div class="my-lists-container hidden">
-          <ul>
-            <li data-id="-1">log in to see your lists</li>
-          
+
+        <div class="my-lists-menu hidden">
+          <ul class="my-lists-menu__list">
+            <li  data-id="-1">log in to see your lists</li>
           </ul>
         </div>
       </div>
-        <div class="user-container">
-          <span class="display-name"></span>
-          <button class="btn-login">LOG IN</button>
-          <div class="user-profile-container hidden">
-            <div class="user-img-header-container hidden">
-              <img class="user-img-header " src="//:0">
+
+        <div class="header__user-container">
+          <span class="header__display-name"></span>
+          <button class="btn header__btn header__btn--login">LOG IN</button>
+          <div class="header__user-profile-container hidden">
+            <div class="header__user-img-container hidden">
+              <img class="header__user-img " src="//:0">
             </div>
-            <i class="ph-user user-icon"></i>
+            <i class="ph-user header__user-icon"></i>
           </div>
 
-          <div class="user-dropdown-container hidden">
-            <div class="account-setting-container">
+          <div class="user-menu hidden">
+            <div class="user-menu__item-container">
               <i class="ph-gear-six"></i>
               <span>Account Settings</span>
             </div>
-          <button class="btn-logout">LOG OUT</button>
+          <button class="btn header__btn header__btn--logout">LOG OUT</button>
 
         </div>
       </div>
@@ -64,221 +66,222 @@
     <main>
       <section class="todo-section">
 
-        <div class="add-list-container">
-          <i class="ph-plus add-list-icon"></i>
-          <span>Add a new list</span>
+        <div class="add-list">
+          <i class="ph-plus add-list__icon"></i>
+          <span class="add-list__text">Add a new list</span>
         </div>
       </section>
 
       <!-- Authentication Section  -->
-      <section class="authentication-section hidden">
-        <i class="ph-x close-auth-btn"></i>
-        <div class="sign-in-section">
-          <h2 class="auth-title">Already have an account?</h2>
-          <h3 class="auth-sub-titile">Sign in with your email and password</h3>
-          <form class="sign-in-form" data-form="sign-in">
-            <label class="auth-label"
+      <section class="auth__section hidden">
+        <i class="ph-x icon auth__icon--close"></i>
+        <div class="auth__sign-in">
+          <h2 class="heading--secondary ">Already have an account?</h2>
+          <h3 class="heading--tertiary">Sign in with your email and password</h3>
+
+          <form class="form form--sign-in" data-form="sign-in">
+            
+            <label class="label form__label form__label__sign-in--email"
               for="email">Email</label>
-            <input class="auth-input sign-in-email-field"
+            <input class="input form__input  form__input__sign-in--email"
             type="email"
             required
             name="email"
             >
-          </input>
-          
+            </input>
 
-            <label class="auth-label" for="password">Password</label>
-            <input class="auth-input sign-in-pass-field"
+            <label class="label form__label form__label__sign-in--password" for="password">Password</label>
+            <input class="input form__input  form__input__sign-in--password"
             type="password"
             required
             name="password"
             >
-          </input>
+            </input>
 
-          <div class="btn-container">
-            <button class="default-btn" type="submit">Sign in</button>
-            <button class="google-btn">
-              Google Sign In
-            </button>
-          </div>
-          <div class="reset-password-container">
+            <div class="auth__btn-container">
+              <button class="btn auth__btn auth__btn--sign-in" type="submit">Sign in</button>
+              <button class="btn auth__btn auth__btn--google">
+                Google Sign In
+              </button>
+            </div>
 
-            <span>Forgot your password? </span>
-            <span class="btn-reset-password">
-              Click here to reset your password.
-            </span>
-          </div>
-        </form>
+            <div class="auth__reset-password-container">
+              <span>Forgot your password? </span>
+              <span class="auth__reset-password__link">
+                Click here to reset your password.
+              </span>
+            </div>
+
+          </form>
         </div>
-        <div class="sign-up-section">
-          <h2 class="auth-title">Don't have an account?</h2>
-          <h3 class="auth-sub-titile">Sign up with your email and a password</h3>
-          <form class="sign-up-form" data-form="sign-up">
-            <label class="auth-label " 
+
+        <div class="auth__sign-up">
+          <h2 class="heading--secondary">Don't have an account?</h2>
+          <h3 class="heading--tertiary">Sign up with your email and a password</h3>
+
+          <form class="form form--sign-up" data-form="sign-up">
+
+            <label class="label form__label form__label__sign-up--name" 
             for="name">Choose a user name</label>
-            <input class="auth-input name-field"
+            <input class="input form__input  form__input__sign-up--name"
             type="text"
             required
             name="name"
             >
-          </input>
-            <label class="auth-label" 
+            </input>
+
+            <label class="label form__label form__label__sign-up--email" 
               for="email">Email</label>
-            <input class="auth-input email-field"
+            <input class="input form__input  form__input__sign-up--email"
             type="email"
             required
             name="email"
             >
-          </input>
-          
-
-            <label class="auth-label" for="password">Choose a password</label>
-            <input class="auth-input pass-field"
-            type="password"
-            required
-            name="password"
-            >
-          </input>
-            <label class="auth-label" for="password">Confirm your password</label>
-            <input class="auth-input pass-confirm-field"
-            type="password"
-            required
-            name="password"
-            >
-          </input>
-
-          <div class="btn-container">
-            <button class="default-btn" type="submit">Sign up</button>
+            </input>
             
-          </div>
+            <label class="label form__label form__label__sign-up--password" for="password">Choose a password</label>
+            <input class="input form__input  form__input__sign-up--password"
+            type="password"
+            required
+            name="password"
+            >
+            </input>
+
+            <label class="label form__label form__label__sign-up--confirm" for="password">Confirm your password</label>
+            <input class="input form__input  form__input__sign-up--confirm"
+            type="password"
+            required
+            name="password"
+            >
+            </input>
+
+            <div class="auth__btn-container">
+              <button class="btn auth__btn auth__btn--sign-up" type="submit">Sign up</button>  
+            </div>
           
-        </form>
+          </form>
         </div>
+
       </section>
 
       <!-- Forgot Password Section -->
-      <section class="forgot-pass-section hidden">
-        <i class="ph-x close-forgot-pass-btn"></i>
+      <section class="forgot-password__section hidden">
+        <i class="ph-x forgot-password__icon--close"></i>
 
-        <h2>Forgot your passsword?</h2>
-        <h3>Enter your email to receive a link to reset your password.</h3>
-        <form action="submit">
-          <label class="auth-label" for="email">Email</label>
-          <input class="email-field-forgot-pass" type="email" >
-          <button class="forgot-pass-btn">Send</button>
+        <h2 class="heading--secondary">Forgot your passsword?</h2>
+        <h3 class="heading--tertiary">Enter your email to receive a link to reset your password.</h3>
+        <form class="form form--forgot" action="submit">
+          <label class="label form__label form__label__forgot" for="email">Email</label>
+          <input class="input form__input  form__input__forgot" type="email" >
+          <button class="btn forgot__btn">Send</button>
         </form>
       </section>
 
       <!-- Account Settings  -->
-      <section class="account-settings-section hidden ">
-        <i class="ph-x close-settings-btn"></i>
-        <div class="account-settings-menu-container">
-          <div data-menu="name" class="account-settings-menu-item">
+      <section class="settings hidden ">
+        <i class="ph-x settings__icon--close"></i>
+        <div class="settings-menu">
+          <div data-menu="name" class="settings-menu__item">
             <span>Change Display Name</span>
             <i class="ph-caret-right-bold"></i>
           </div>
-          <div data-menu="picture" class="account-settings-menu-item">
+          <div data-menu="picture" class="settings-menu__item">
             <span>Change Profile Picture</span>
             <i class="ph-caret-right-bold"></i>
           </div>
-          <div data-menu="email" class="account-settings-menu-item">
+          <div data-menu="email" class="settings-menu__item">
             <span>Change Email Address</span>
             <i class="ph-caret-right-bold"></i>
           </div>
-          <div data-menu="password" class="account-settings-menu-item">
+          <div data-menu="password" class="settings-menu__item">
             <span>Change Password</span>
             <i class="ph-caret-right-bold"></i>
           </div>
         </div>
         
-        <div class="account-settings-container change-name-container">
-          <form class="change-name-form" data-form="change-name">
-            <label class="auth-label"
+        <div class="settings__section settings__section--change-name">
+          <form class="form form--change-name" data-form="change-name">
+            <label class="label form__label form__label__change-name"
               for="name">New display name</label>
-            <input class="auth-input change-name-field"
+            <input class="input form__input  form__input__change-name"
             type="text"
             required
             name="name"
             >
             </input>
-            <button class="default-btn" type="submit">Save</button>
+            <button class="btn  settings__btn settings__btn--name" type="submit">Save</button>
           </form>
         </div>
 
-        <div class="account-settings-container change-picture-container hidden">
-          <div class="change-picture-outer-frame picture-outer-frame ">
-            <img data-file="" class="user-img" src="//:0">
-            <div class="edit-picture-circle"></div>
-          </div>
-          <div class="change-picture-outer-frame select-outer-frame hidden">  
-            <div class="select-picture-circle dropzone">
-              <div class="circle-edit-container">
-                <i class="ph-plus "></i>
-                <h2>Drag and drop</h2>
-                <h2>your picture here</h2>
-                <h2>or</h2>
-                <button class="upload-btn">Upload</button>
-              </div>
-            </div>           
+        <div class="settings__section settings__section--change-picture change-picture hidden">
+          <div class="change-picture__frame">
+            <img data-file="" class="change-picture__user-img" src="//:0">
+            <div class="change-picture__select">
+              <i class="ph-plus change-picture__icon--plus "></i>
+              <h2>Drag and drop</h2>
+              <h2>your picture here</h2>
+              <h2>or</h2>
+              <button class="btn settings__btn--upload">Upload</button>
+            </div>        
           </div>   
-          <div class="select-img-inputs-container inputs-container hidden">
-            <input class="upload-file-input hidden" type="file">
-            <input class="url-input hidden" type="url" name="url" placeholder="https://example.com" required>
+          <div class="change-picture__inputs-container change-picture__inputs-container--select hidden">
+            <input class="change-picture__input--upload hidden" type="file">
+            <input class="change-picture__input--url hidden" type="url" name="url" placeholder="https://example.com" required>
           </div>
-          <div class="edit-img-inputs-container inputs-container">
-            <input class="zoom-num-input" type="number" min="100" max="400" value="0">
-            <input class="zoom-range-input" type="range" min="100" max="400" step="5" value="0">
+          <div class="change-picture__inputs-container change-picture__inputs-container--edit">
+            <input class="change-picture__input--zoom-num" type="number" min="100" max="400" value="0">
+            <input class="change-picture__input--zoom-range" type="range" min="100" max="400" step="5" value="0">
           </div>
-          <div class="button-container">
-            <button class="change-btn">Change</button>
-            <button class="url-submit-btn hidden">Submit</button>
-            <button class="accept-btn hidden">Save</button>
-            <button class="reset-btn hidden">Reset</button>
-            <button class="cancel-btn hidden">Cancel</button>
+          <div class="change-picture__button-container">
+            <button class="btn settings__btn change-picture__button settings__btn--change">Change</button>
+            <button class="btn settings__btn change-picture__button settings__btn--url hidden">Submit</button>
+            <button class="btn settings__btn change-picture__button settings__btn--accept hidden">Save</button>
+            <button class="btn settings__btn change-picture__button settings__btn--reset hidden">Reset</button>
+            <button class="btn settings__btn change-picture__button settings__btn--cancel hidden">Cancel</button>
           </div>
         </div>
 
-        <div class="account-settings-container change-email-container hidden">
-          <form class="change-email-form" data-form="change-email">
-            <label class="auth-label"
+        <div class="settings__section settings__section--change-email hidden">
+          <form class="form form--change-email" data-form="change-email">
+            <label class="label form__label form__label__change-email--password"
               for="password">Password</label>
-            <input class="auth-input password-field"
+            <input class="input form__input  form__input__change-email--password"
             type="password"
             required
             name="password"
             >
             </input>
-            <label class="auth-label"
+            <label class="label form__label form__label__change-email--email"
               for="email">New email address</label>
-            <input class="auth-input change-email-field"
+            <input class="input form__input  form__input__change-email--email"
             type="email"
             required
             name="email"
             >
             </input>
-            <button class="default-btn" type="submit">Save</button>
+            <button class="btn settings__btn settings__default--email" type="submit">Save</button>
           </form>
         </div>
 
-        <div class="hidden account-settings-container change-password-container">
-          <form class="change-password-form" data-form="change-password">
-            <label class="auth-label"
+        <div class="hidden settings__section settings__section--change-password">
+          <form class="form change-password-form" data-form="change-password">
+            <label class="label form__label form__label__change-password--old-password"
               for="old-password">Old password</label>
-            <input class="auth-input old-password-field"
+            <input class="input form__input  form__input__change-password--old-password"
             type="password"
             required
             name="old-password"
             >
             </input>
-            <label class="auth-label"
+            <label class="label form__label form__label__change-password--new-password"
               for="new-password">New password</label>
-            <input class="auth-input new-password-field"
+            <input class="input form__input  form__input__change-password--new-password"
             type="password"
             required
             name="new-password"
             >
             </input>
-            <button class="default-btn" type="submit">Save</button>
+            <button class="btn settings__btn settings__default--password" type="submit">Save</button>
           </form>
         </div>
 
@@ -288,3 +291,18 @@
   </body>
 </html>
 
+<!-- <div class="change-picture__frame change-picture__frame--pic ">
+            <img data-file="" class="change-picture__user-img" src="//:0">
+            <div class="change-picture__circle change-picture__circle--edit"></div>
+          </div>
+          <div class="change-picture__frame change-picture__frame--select hidden">  
+            <div class="change-picture__circle change-picture__circle--select dropzone">
+              <div class="change-picture__select-box">
+                <i class="ph-plus change-picture__icon--plus "></i>
+                <h2>Drag and drop</h2>
+                <h2>your picture here</h2>
+                <h2>or</h2>
+                <button class="btn settings__btn--upload">Upload</button>
+              </div>
+            </div>           
+          </div> -->

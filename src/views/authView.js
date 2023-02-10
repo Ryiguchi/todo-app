@@ -3,7 +3,7 @@
 export default class AuthView {
   #inputFields = document.querySelectorAll("form input");
   overlay = document.querySelector(".overlay");
-  authSection = document.querySelector(".authentication-section");
+  authSection = document.querySelector(".auth__section");
 
   constructor() {
     this.#addHandlerReload();
@@ -77,7 +77,7 @@ export default class AuthView {
 
   addHandlerInputFields() {
     this.section.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("auth-label")) return;
+      if (!e.target.classList.contains("label")) return;
       const inputEl = e.target.nextElementSibling;
       const labelEl = e.target;
       this.#moveLabel(labelEl);
@@ -85,7 +85,7 @@ export default class AuthView {
     });
 
     this.section.addEventListener("focusin", (e) => {
-      if (!e.target.classList.contains("auth-input")) return;
+      if (!e.target.classList.contains("input")) return;
       const labelEl = e.target.previousElementSibling;
       this.#moveLabel(labelEl);
     });
@@ -93,7 +93,7 @@ export default class AuthView {
 
   addHandlerLabelShrinkOnBlur() {
     this.section.addEventListener("focusout", (e) => {
-      if (!e.target.classList.contains("auth-input")) return;
+      if (!e.target.classList.contains("input")) return;
 
       const labelEl = e.target.previousElementSibling;
       if (!e.target.value) {

@@ -118,6 +118,13 @@ export const changeUserDisplayName = async (newName) => {
   }
 };
 
+const request = {};
+
+export const optimizeImg = async (url) => {
+  try {
+  } catch (error) {}
+};
+
 export const updateProfilePicture = async (imgData, imgFile) => {
   try {
     await firebaseUpdateImgData(imgData);

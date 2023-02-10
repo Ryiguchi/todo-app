@@ -3,13 +3,15 @@
 import AuthView from "./authView.js";
 
 class SignUpView extends AuthView {
-  section = document.querySelector(".sign-up-section");
-  form = document.querySelector(".sign-up-form");
-  nameField = document.querySelector(".name-field");
-  emailField = document.querySelector(".email-field");
-  passwordField = document.querySelector(".pass-field");
-  confirmPasswordField = document.querySelector(".pass-confirm-field");
-  inputFields = document.querySelectorAll(".sign-up-section input");
+  section = document.querySelector(".auth__sign-up");
+  form = document.querySelector(".form--sign-up");
+  nameField = document.querySelector(".auth__input--sign-up-name");
+  emailField = document.querySelector(".auth__input--sign-up-email");
+  passwordField = document.querySelector(".auth__input--sign-up-password");
+  confirmPasswordField = document.querySelector(
+    ".auth__input--sign-up-confirm"
+  );
+  inputFields = document.querySelectorAll(".auth__input--sign-up");
 
   constructor() {
     super();

@@ -1,0 +1,66 @@
+/* Header */
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+
+  font-size: 2rem;
+  background-color: #fff;
+  /* border-bottom: 1px solid #aaa; */
+  box-shadow: 5px -5px 10px rgba(0, 0, 0, 0.4);
+
+  padding: 0 4rem;
+}
+
+.header__left-container {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.header__icon--layout {
+  cursor: pointer;
+}
+
+.header__my-lists-container {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+
+  cursor: pointer;
+}
+
+.header__user-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.header__user-img-container {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 1px solid #aaa;
+  cursor: pointer;
+  box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.15), 2px 2px 3px rgba(0, 0, 0, 0.15);
+
+  overflow: hidden;
+}
+
+.header__user-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.header__user-icon {
+  margin-right: 5rem;
+  cursor: pointer;
+}

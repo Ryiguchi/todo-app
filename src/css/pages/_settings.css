@@ -1,0 +1,37 @@
+.settings {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: fit-content;
+  margin: 12rem auto;
+  padding: 5rem;
+
+  border: 1px solid #888;
+  border-radius: 10px;
+  box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+}
+
+.settings__icon--close {
+  font-size: 2.4rem;
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+
+  cursor: pointer;
+}
+
+.settings__section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40rem;
+  min-height: 45rem;
+}
+
+.settings__section:not(.settings__section--change-picture) {
+  padding: 0 5rem 10rem 5rem;
+}

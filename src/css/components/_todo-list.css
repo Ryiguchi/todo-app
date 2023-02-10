@@ -1,0 +1,92 @@
+.todo-list,
+.add-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 50rem;
+  min-width: 30rem;
+  height: fit-content;
+  min-height: 20rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  font-size: 1.6rem;
+}
+
+.add-list {
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.todo-list__icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.todo-list__icon,
+.todo-list__icon--list-options {
+  cursor: pointer;
+  font-size: 2rem;
+}
+
+.add-item__icon {
+  font-size: 2.4rem;
+}
+
+.todo-list__title {
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  font-size: 2rem;
+  font-weight: 400;
+
+  outline: none;
+  transition: all 0.2s;
+}
+
+.todo-list__title:focus {
+  background-color: rgba(238, 238, 238, 0.5);
+}
+
+.todo-list__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 1rem 0;
+}
+
+.add-item {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+
+  font-style: italic;
+  cursor: pointer;
+}
+
+.todo-list__icon--list-options {
+  align-self: flex-end;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.focused {
+  border: 2px solid #545454 !important;
+}
+
+/* ADD LIST */
+.add-list__icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.add-list__text {
+  font-size: 1.6rem;
+}

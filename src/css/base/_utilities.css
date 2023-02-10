@@ -1,0 +1,24 @@
+.grid-1 {
+  grid-template-columns: auto;
+}
+
+.grid-2 {
+  grid-template-columns: auto auto;
+}
+
+.grid-3 {
+  grid-template-columns: auto auto auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 50;
+}
+
+.hidden {
+  display: none !important;
+}

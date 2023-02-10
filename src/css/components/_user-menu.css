@@ -1,0 +1,32 @@
+.user-menu {
+  position: absolute;
+  top: 5rem;
+  right: 6rem;
+  transform: translateX(50%);
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  min-height: 8rem;
+  padding: 1rem;
+  background-color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.user-menu__item-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  width: max-content;
+  font-size: 1.6rem;
+
+  cursor: pointer;
+}
+
+.user-menu__item-container i {
+  font-size: 1.8rem;
+}

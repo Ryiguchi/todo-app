@@ -3,15 +3,15 @@
 import AuthView from "./authView.js";
 
 class SignInView extends AuthView {
-  closeBtn = document.querySelector(".close-auth-btn");
-  page = document.querySelector(".authentication-section");
-  section = document.querySelector(".sign-in-section");
-  form = document.querySelector(".sign-in-form");
-  googleBtn = document.querySelector(".google-btn");
-  forgotPassBtn = document.querySelector(".btn-reset-password");
-  inputFields = document.querySelectorAll(".sign-in-section input");
-  emailField = document.querySelector(".sign-in-email-field");
-  passwordField = document.querySelector(".sign-in-pass-field");
+  closeBtn = document.querySelector(".auth__icon--close");
+  page = document.querySelector(".auth__section");
+  section = document.querySelector(".auth__sign-in");
+  form = document.querySelector(".form--sign-in");
+  googleBtn = document.querySelector(".auth__btn--google");
+  forgotPassBtn = document.querySelector(".auth__reset-password__link");
+  inputFields = document.querySelectorAll(".auth__input--sign-in");
+  emailField = document.querySelector(".auth__input--sign-in-email");
+  passwordField = document.querySelector(".auth__input--sign-in-password");
 
   constructor() {
     super();

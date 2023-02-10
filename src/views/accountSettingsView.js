@@ -1,29 +1,41 @@
 import AuthView from "./authView";
 
 class AccountSettingsView extends AuthView {
-  section = document.querySelector(".account-settings-section");
-  page = document.querySelector(".account-settings-section");
-  #menuContainer = document.querySelector(".account-settings-menu-container");
-  #settingsMenuItems = document.querySelectorAll(".account-settings-menu-item");
-  #settingsContainers = document.querySelectorAll(
-    ".account-settings-container"
+  section = document.querySelector(".settings");
+  page = document.querySelector(".settings");
+  #menuContainer = document.querySelector(".settings-menu");
+  #settingsContainers = document.querySelectorAll(".settings__section");
+  #settingsMenuItems = document.querySelectorAll(".settings-menu__item");
+  #changeNameContainer = document.querySelector(
+    ".settings__section--change-name"
   );
-  #changeNameContainer = document.querySelector(".change-name-container");
-  #changePictureContainer = document.querySelector(".change-picture-container");
-  #changeEmailContainer = document.querySelector(".change-email-container");
+  #changePictureContainer = document.querySelector(
+    ".settings__section--change-picture"
+  );
+  #changeEmailContainer = document.querySelector(
+    ".settings__section--change-email"
+  );
   #changePasswordContainer = document.querySelector(
-    ".change-password-container"
+    ".settings__section--change-password"
   );
-  inputFields = document.querySelectorAll(".auth-input");
-  #changeNameForm = document.querySelector(".change-name-form");
-  #changeNameField = document.querySelector(".change-name-field");
-  #changeEmailForm = document.querySelector(".change-email-form");
-  #changeEmailField = document.querySelector(".change-email-field");
-  #changeEmailPasswordField = document.querySelector(".password-field");
+  inputFields = document.querySelectorAll(".input");
+  #changeNameForm = document.querySelector(".form--change-name");
+  #changeNameField = document.querySelector(".form__input__change-name");
+  #changeEmailForm = document.querySelector(".form--change-email");
+  #changeEmailField = document.querySelector(
+    ".form__input__change-email--email"
+  );
+  #changeEmailPasswordField = document.querySelector(
+    ".form__input__change-email--password"
+  );
   #changePasswordForm = document.querySelector(".change-password-form");
-  #changePassordOldField = document.querySelector(".old-password-field");
-  #changePasswordNewField = document.querySelector(".new-password-field");
-  #closeSectionBtn = document.querySelector(".close-settings-btn");
+  #changePassordOldField = document.querySelector(
+    ".form__input__change-password--old-password"
+  );
+  #changePasswordNewField = document.querySelector(
+    ".form__input__change-password--new-password"
+  );
+  #closeSectionBtn = document.querySelector(".settings__icon--close");
 
   constructor() {
     super();
@@ -59,7 +71,7 @@ class AccountSettingsView extends AuthView {
 
   #addHandlerSelectMenuItem() {
     this.#menuContainer.addEventListener("click", (e) => {
-      const selectedItem = e.target.closest(".account-settings-menu-item");
+      const selectedItem = e.target.closest(".settings-menu__item");
       this.#displaySelectedMenu(selectedItem);
     });
   }

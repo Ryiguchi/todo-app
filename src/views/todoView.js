@@ -4,19 +4,21 @@ import { todoItem } from "../templates/templates";
 
 class TodoView {
   todoSection = document.querySelector(".todo-section");
-  checkboxContainer = document.querySelector(".todo-checkbox-container");
-  todoItemsContainer = document.querySelector(".todo-items-container");
-  checkboxEmpty = document.querySelector(".todo-box");
-  checkboxChecked = document.querySelector(".todo-box-checked");
-  addItemIcon = document.querySelector(".add-item-icon");
-  removeItemIcon = document.querySelector(".remove-item-icon");
-  addItemContainer = document.querySelector(".add-item-container");
-  listOptionsIcons = document.querySelectorAll(".list-options-icon");
-  listOptionsContainers = document.querySelectorAll(".list-options-container");
-  allTodoLists = document.querySelectorAll(".todo-item");
+  checkboxContainer = document.querySelector(".task__checkbox-container");
+  todoItemsContainer = document.querySelector(".todo-list__body");
+  checkboxEmpty = document.querySelector(".task__icon--box");
+  checkboxChecked = document.querySelector(".task__icon--checkbox");
+  addItemIcon = document.querySelector(".add-item__icon");
+  removeItemIcon = document.querySelector(".task__icon--delete");
+  addItemContainer = document.querySelector(".add-item");
+  listOptionsIcons = document.querySelectorAll(
+    ".todo-list__icon--list-options"
+  );
+  listOptionsContainers = document.querySelectorAll(".list-options");
+  allTodoLists = document.querySelectorAll(".todo-list");
   overlay = document.querySelector(".overlay");
-  iconAddList = document.querySelector(".add-list-icon");
-  addListContainer = document.querySelector(".add-list-container");
+  iconAddList = document.querySelector(".add-list__icon");
+  addListContainer = document.querySelector(".add-list");
 
   constructor() {
     this.#addHandlerFocusOnSelectedList();
@@ -28,7 +30,7 @@ class TodoView {
   }
 
   #selectList(element) {
-    return element.closest(".todo-item");
+    return element.closest(".todo-list");
   }
 
   #selectNewListItem(todoItemsContainer) {
@@ -49,21 +51,43 @@ class TodoView {
       .forEach((el) => el.classList.toggle("hidden"));
   }
 
+  #showCheckboxAndStrikeThrough(listItemContainer) {
+    listItemContainer
+      .querySelector(".task__icon--checkbox")
+      .classList.remove("hidden");
+    listItemContainer.querySelector(".task__icon--box").classList.add("hidden");
+    listItemContainer
+      .querySelector(".task__text")
+      .classList.add("line-through");
+  }
+
+  #hideCheckboxAndStrikeThrough(listItemContainer) {
+    listItemContainer
+      .querySelector(".task__icon--checkbox")
+      .classList.add("hidden");
+    listItemContainer
+      .querySelector(".task__icon--box")
+      .classList.remove("hidden");
+    listItemContainer
+      .querySelector(".task__text")
+      .classList.remove("line-through");
+  }
+
   toggleStrikeThrough(listItemContainer) {
     listItemContainer
-      .querySelector(".todo-item-text")
+      .querySelector(".task__text")
       .classList.toggle("line-through");
   }
 
   addNewLine(element, placement) {
     const markup = `
-      <div class="todo-item-container">
-        <div class="todo-checkbox-container">
-          <i class="ph-check-square checkbox todo-box-checked hidden"></i>
-          <i class="ph-square checkbox todo-box"></i>
+      <div class="task">
+        <div class="task__checkbox-container">
+          <i class="ph-check-square checkbox task__icon  task__icon--checkbox hidden"></i>
+          <i class="ph-square checkbox  task__icon task__icon--box"></i>
         </div>
-        <div class="todo-item-text" contenteditable="true" ></div>
-        <i class="ph-minus-circle remove-item-icon"></i>
+        <div class="task__text" contenteditable="true" ></div>
+        <i class="ph-minus-circle  task__icon task__icon--delete"></i>
       </div>
     `;
 
@@ -71,18 +95,18 @@ class TodoView {
   }
 
   #clearTextFromItem(item) {
-    item.querySelector(".todo-item-text").textContent = "";
+    item.querySelector(".task__text").textContent = "";
   }
 
   #showEmptyCheckbox(item) {
-    item.querySelector(".todo-box-checked").classList.add("hidden");
-    item.querySelector(".todo-box").classList.remove("hidden");
+    item.querySelector(".task__icon--checkbox").classList.add("hidden");
+    item.querySelector(".task__icon--box").classList.remove("hidden");
   }
 
   removeItem(item) {
     if (
       item.previousElementSibling ||
-      item.nextElementSibling?.classList.contains("todo-item-container")
+      item.nextElementSibling?.classList.contains("task")
     ) {
       item.remove();
     }
@@ -94,13 +118,13 @@ class TodoView {
 
   focusList(list) {
     document
-      .querySelectorAll(".todo-item")
+      .querySelectorAll(".todo-list")
       .forEach((el) => el.classList.remove("focused"));
     list.classList.add("focused");
   }
 
   focusItem(element) {
-    element.querySelector(".todo-item-text").focus();
+    element.querySelector(".task__text").focus();
   }
 
   toggleOptionsEl(element) {
@@ -109,12 +133,12 @@ class TodoView {
 
   closeAllOptionsEl() {
     document
-      .querySelectorAll(".list-options-container")
+      .querySelectorAll(".list-options")
       .forEach((el) => el.classList.add("hidden"));
   }
 
-  toggleOverlay() {
-    this.overlay.classList.remove("hidden");
+  #toggleOverlay() {
+    this.overlay.classList.toggle("hidden");
   }
 
   addList() {
@@ -122,12 +146,12 @@ class TodoView {
   }
 
   isListAlreadyBeingDisplayed(id) {
-    const lists = [...this.todoSection.querySelectorAll(".todo-item")];
+    const lists = [...this.todoSection.querySelectorAll(".todo-list")];
     return lists.some((list) => list.dataset.id === id);
   }
 
   #spanExtraRowsIfBig() {
-    const lists = [...document.querySelectorAll(".todo-item")];
+    const lists = [...document.querySelectorAll(".todo-list")];
     lists.forEach((list) => {
       const height = list.offsetHeight;
       const rows = Math.round(height / 10);
@@ -140,80 +164,79 @@ class TodoView {
     if (this.isListAlreadyBeingDisplayed(id)) return;
 
     const markup = `
-      <div class="todo-item" data-id="${id}">
-        <div class="todo-item-icon-container">
-            <i class="ph-push-pin pinned-list-icon-top ${
-              !pinned && "hidden"
-            } "></i>
-            <i class="ph-x close-list-icon"></i>
-          </div>
-        <div contenteditable="true" class="todo-title" data-color="${color}" >${title}</div>
-        <div class="todo-body">
-          <div class="todo-items-container">
+      <div class="todo-list" data-id="${id}">
+        <div class="todo-list__icon-container">
+          <i class="ph-push-pin  todo-list__icon todo-list__icon--pin ${
+            !pinned && "hidden"
+          }"></i>
+          <i class="ph-x todo-list__icon todo-list__icon--close-section"></i>
+        </div>
+                   
+        <h2 contenteditable="true" class="todo-list__title" data-color="${color}" >${title}</h2>
+        <div class="todo-list__body">
             ${listItems
               .map(
                 (item) => `
-                <div class="todo-item-container">
-                  <div class="todo-checkbox-container">
-                    <i class="ph-check-square checkbox todo-box-checked ${
-                      !item.checked && "hidden"
-                    }"></i>
-                    <i class="ph-square checkbox todo-box ${
-                      item.checked && "hidden"
-                    }"></i>
-                  </div>
-                  <div class="todo-item-text ${
-                    item.checked && "line-through"
-                  }" contenteditable="true">${item.text}</div>
-                  <i class="ph-minus-circle remove-item-icon"></i>
+              <div class="task">
+                <div class="task__checkbox-container">
+                  <i class="ph-check-square checkbox task__icon  task__icon--checkbox ${
+                    !item.checked && "hidden"
+                  }"></i>
+                  <i class="ph-square checkbox  task__icon task__icon--box ${
+                    item.checked && "hidden"
+                  }"></i>
                 </div>
-              `
+                <div class="task__text ${
+                  item.checked && "line-through"
+                }" contenteditable="true">${item.text}</div>
+                <i class="ph-minus-circle task__icon task__icon--delete"></i>
+              </div>
+            `
               )
               .join("")}
           </div>
-          <div class="add-item-container">
-            <i class="ph-plus-circle add-item-icon"></i>
-            <span class="add-item-icon">add another item...</span>
+          <div class="add-item">
+            <i class="ph-plus-circle add-item__icon"></i>
+            <span class="add-item__text">add another item...</span>
           </div>
-        </div>
-        <i class="ph-dots-three-vertical-bold list-options-icon"></i>
-          <div class="list-options-container hidden">
-            <div class="list-options-item list-option-color">
-              <i class="ph-palette"></i>
-              <div class="color-container">
-                <div class="pick-color" data-color="red"></div>
-                <div class="pick-color" data-color="orange"></div>
-                <div class="pick-color" data-color="yellow"></div>
-                <div class="pick-color" data-color="green"></div>
-                <div class="pick-color" data-color="blue"></div>
-                <div class="pick-color" data-color="purple"></div>
-                <div class="pick-color" data-color="black"></div>
-                <div class="pick-color" data-color="white"></div>
-              </div>
+            
+        <i class="ph-dots-three-vertical-bold todo-list__icon--list-options"></i>
+        <div class="list-options hidden">
+          <div class="list-options__item list-options__item--color">
+            <i class="ph-palette list-options__icon--palette"></i>
+            <div class="list-options__color">
+              <div class="list-options__pick-color" data-color="red"></div>
+              <div class="list-options__pick-color" data-color="orange"></div>
+              <div class="list-options__pick-color" data-color="yellow"></div>
+              <div class="list-options__pick-color" data-color="green"></div>
+              <div class="list-options__pick-color" data-color="blue"></div>
+              <div class="list-options__pick-color" data-color="purple"></div>
+              <div class="list-options__pick-color" data-color="black"></div>
+              <div class="list-options__pick-color" data-color="white"></div>
             </div>
-            <div class="list-options-item list-option-pin ">
-              <i class="ph-push-pin ${
-                pinned && "hidden"
-              } list-options-pin-icon"></i>
-              <i class="ph-push-pin-fill list-options-pin-icon ${
-                !pinned && "hidden"
-              }"></i>
-              <span>Pin List</span>
-            </div>
-            <div class="list-options-item list-option-check-all-items">
-                <i class="ph-check-square todo-box-checked"></i>
-              <span>Check all items</span>
-            </div>
-            <div class="list-options-item list-option-remove-checked-items">
-                <i class="ph-minus-circle remove-checked-items-icon"></i>
-              <span>Remove checked items</span>
-            </div>
-            <div class="list-options-item list-option-delete">
-              <i class="ph-trash delete-note-icon"></i>
-              <span>Delete List</span>
-            </div>
-          </div>        
-        </div>
+          </div>
+          <div class="list-options__item list-options__item--pin ">
+            <i class="ph-push-pin  list-options__icon--pin ${
+              pinned && "hidden"
+            }"></i>
+            <i class="ph-push-pin-fill ${
+              !pinned && "hidden"
+            } list-options__icon--pin "></i>
+            <span>Pin List</span>
+          </div>
+          <div class="list-options__item list-options__item--check-all">
+              <i class="ph-check-square list-options__icon--checkbox"></i>
+            <span>Check/uncheck all items</span>
+          </div>
+          <div class="list-options__item list-options__item--remove-checked">
+              <i class="ph-minus-circle list-options__icon--minus"></i>
+            <span>Remove checked items</span>
+          </div>
+          <div class="list-options__item list-options__item--delete">
+            <i class="ph-trash list-options__icon--trash"></i>
+            <span>Delete List</span>
+          </div>
+        </div>        
       </div>
     `;
 
@@ -233,17 +256,17 @@ class TodoView {
 
   getListData(list) {
     const id = list.dataset.id;
-    const title = list.querySelector(".todo-title").textContent;
-    const color = list.querySelector(".todo-title").dataset.color;
+    const title = list.querySelector(".todo-list__title").textContent;
+    const color = list.querySelector(".todo-list__title").dataset.color;
     const pinned = !list
-      .querySelector(".pinned-list-icon-top")
+      .querySelector(".todo-list__icon--pin")
       .classList.contains("hidden");
-    const listItemsEl = list.querySelectorAll(".todo-item-container");
+    const listItemsEl = list.querySelectorAll(".task");
     const listItems = [...listItemsEl].map((element) => {
       const checked = element
-        .querySelector(".todo-box")
+        .querySelector(".task__icon--box")
         .classList.contains("hidden");
-      const text = element.querySelector(".todo-item-text").textContent;
+      const text = element.querySelector(".task__text").textContent;
       return {
         checked,
         text,
@@ -263,7 +286,7 @@ class TodoView {
   }
 
   setColorToList(list, color) {
-    list.querySelector(".todo-title").dataset.color = color;
+    list.querySelector(".todo-list__title").dataset.color = color;
   }
 
   changeColor(list, color) {
@@ -293,28 +316,32 @@ class TodoView {
   }
 
   #removeCheckedItems(list) {
-    const listItems = [...list.querySelectorAll(".todo-item-text")];
+    const listItems = [...list.querySelectorAll(".task__text")];
     listItems
       .filter((item) => item.classList.contains("line-through"))
-      .forEach((item) => item.closest(".todo-item-container").remove());
+      .forEach((item) => item.closest(".task").remove());
   }
 
   #checkAllItems(list) {
-    const listItems = list.querySelectorAll(".todo-item-container");
+    const listItems = [...list.querySelectorAll(".task")];
+    const anyChecked = listItems
+      .map((item) => item.querySelector(".task__icon--box"))
+      .some((checkbox) => checkbox.classList.contains("hidden"));
+    console.log(anyChecked);
     listItems.forEach((item) => {
-      this.toggleCheckbox(item);
-      this.toggleStrikeThrough(item);
+      if (!anyChecked) this.#showCheckboxAndStrikeThrough(item);
+      if (anyChecked) this.#hideCheckboxAndStrikeThrough(item);
     });
   }
 
   #togglePinInListOptions(list) {
     list
-      .querySelectorAll(".list-options-pin-icon")
+      .querySelectorAll(".list-options__icon--pin")
       .forEach((el) => el.classList.toggle("hidden"));
   }
 
   #togglePinInListTop(list) {
-    list.querySelector(".pinned-list-icon-top").classList.toggle("hidden");
+    list.querySelector(".todo-list__icon--pin").classList.toggle("hidden");
   }
 
   showPinnedLists(listsData) {
@@ -324,12 +351,18 @@ class TodoView {
     this.#spanExtraRowsIfBig();
   }
 
+  #closeOptionsMenu(list) {
+    const menu = list.querySelector(".list-options");
+    this.toggleOptionsEl(menu);
+    this.#toggleOverlay();
+  }
+
   // Handlers
 
   addHandlerToggleCheckbox(handler) {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.classList.contains("checkbox")) return;
-      const listItemContainer = e.target.closest(".todo-item-container");
+      const listItemContainer = e.target.closest(".task");
       this.toggleCheckbox(listItemContainer);
       this.toggleStrikeThrough(listItemContainer);
 
@@ -341,9 +374,9 @@ class TodoView {
 
   #addHandlerAddListItem() {
     this.todoSection.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("add-item-icon")) return;
+      if (!e.target.classList.contains("add-item__icon")) return;
       const list = this.#selectList(e.target);
-      const todoItemsContainer = list.querySelector(".todo-items-container");
+      const todoItemsContainer = list.querySelector(".todo-list__body");
       this.addNewLine(todoItemsContainer, "beforeend");
       const newItem = this.#selectNewListItem(todoItemsContainer);
       this.focusItem(newItem);
@@ -353,8 +386,8 @@ class TodoView {
 
   addHandlerRemoveListItem(handler) {
     this.todoSection.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("remove-item-icon")) return;
-      const item = e.target.closest(".todo-item-container");
+      if (!e.target.classList.contains("task__icon--delete")) return;
+      const item = e.target.closest(".task");
       const list = this.#selectList(e.target);
       this.removeItem(item);
       this.#spanExtraRowsIfBig();
@@ -374,10 +407,10 @@ class TodoView {
 
   #addHandlerPressEnterOnListItem() {
     this.todoSection.addEventListener("keydown", (e) => {
-      if (!e.target.classList.contains("todo-item-text")) return;
+      if (!e.target.classList.contains("task__text")) return;
       if (e.key !== "Enter") return;
       e.preventDefault();
-      const element = e.target.closest(".todo-item-container");
+      const element = e.target.closest(".task");
       this.addNewLine(element, "afterend");
       const newElement = element.nextElementSibling;
       this.focusItem(newElement);
@@ -386,11 +419,11 @@ class TodoView {
 
   #addHandlerListToggleListOptions() {
     this.todoSection.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("list-options-icon")) return;
+      if (!e.target.classList.contains("todo-list__icon--list-options")) return;
 
       const optionsEl = e.target.nextElementSibling;
       this.toggleOptionsEl(optionsEl);
-      this.toggleOverlay();
+      this.#toggleOverlay();
     });
   }
 
@@ -416,19 +449,22 @@ class TodoView {
 
   addHandlerChooseColor(handler) {
     this.todoSection.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("pick-color")) return;
+      if (!e.target.classList.contains("list-options__pick-color")) return;
       const color = e.target.dataset.color;
       const list = this.#selectList(e.target);
       this.setColorToList(list, color);
       this.changeColor(list, color);
       const listData = this.getListData(list);
+
       handler(listData);
+
+      this.#closeOptionsMenu(list);
     });
   }
 
   #addHandlerCloseList() {
     this.todoSection.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("close-list-icon")) return;
+      if (!e.target.classList.contains("todo-list__icon--close-list")) return;
       const list = this.#selectList(e.target);
       list.remove();
     });
@@ -436,7 +472,7 @@ class TodoView {
 
   addHandlerDeleteList(handler) {
     this.todoSection.addEventListener("click", (e) => {
-      if (!e.target.closest(".list-option-delete")) return;
+      if (!e.target.closest(".list-options__item--delete")) return;
 
       const list = this.#selectList(e.target);
       const id = list.dataset.id;
@@ -448,7 +484,7 @@ class TodoView {
   addHandlerRemoveCheckedItems(handler) {
     this.todoSection.addEventListener("click", (e) => {
       const removeCheckedItemsContainer = e.target.closest(
-        ".list-option-remove-checked-items"
+        ".list-options__item--remove-checked"
       );
       if (!removeCheckedItemsContainer) return;
 
@@ -456,44 +492,55 @@ class TodoView {
       this.#removeCheckedItems(list);
       const listData = this.getListData(list);
       handler(listData);
+
+      this.#closeOptionsMenu(list);
     });
   }
 
   addHandlerCheckAllItems(handler) {
     this.todoSection.addEventListener("click", (e) => {
       const checkAllItemsContainer = e.target.closest(
-        ".list-option-check-all-items"
+        ".list-options__item--check-all"
       );
       if (!checkAllItemsContainer) return;
 
       const list = this.#selectList(e.target);
       this.#checkAllItems(list);
       const listData = this.getListData(list);
+
       handler(listData);
+
+      this.#closeOptionsMenu(list);
     });
   }
 
   addHandlerTogglePinInListOptions(handler) {
     this.todoSection.addEventListener("click", (e) => {
-      if (!e.target.closest(".list-option-pin")) return;
+      if (!e.target.closest(".list-options__item--pin")) return;
 
       const list = this.#selectList(e.target);
       this.#togglePinInListOptions(list);
       this.#togglePinInListTop(list);
       const listData = this.getListData(list);
+
       handler(listData);
+
+      this.#closeOptionsMenu(list);
     });
   }
 
   addHandlerTogglePinOnListTop(handler) {
     this.todoSection.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("pinned-list-icon-top")) return;
+      if (!e.target.classList.contains("todo-list__icon--pin")) return;
 
       const list = this.#selectList(e.target);
       this.#togglePinInListOptions(list);
       this.#togglePinInListTop(list);
       const listData = this.getListData(list);
+
       handler(listData);
+
+      this.#closeOptionsMenu(list);
     });
   }
 }

@@ -1,29 +1,31 @@
 "use strict";
 
 class ChangeProfilePictureView {
-  #selectCircle = document.querySelector(".select-picture-circle");
-  #editCircle = document.querySelector(".edit-picture-circle");
-  #circleEditContainer = document.querySelector(".circle-edit-container");
-  #outerFrames = document.querySelectorAll(".change-picture-outer-frame");
-  #pictureFrame = document.querySelector(".picture-outer-frame");
-  #selectFrame = document.querySelector(".select-outer-frame");
-  #userImg = document.querySelector(".user-img");
-  #allInputsContainers = document.querySelectorAll(".inputs-container");
-  #zoomNumInput = document.querySelector(".zoom-num-input");
-  #zoomRangeInput = document.querySelector(".zoom-range-input");
-  #uploadFileInput = document.querySelector(".upload-file-input");
-  #urlInput = document.querySelector(".url-input");
-  #uploadBtn = document.querySelector(".upload-btn");
-  #allBtns = document.querySelectorAll(".button-container button");
-  #changeBtn = document.querySelector(".change-btn");
-  #acceptBtn = document.querySelector(".accept-btn");
-  #resetBtn = document.querySelector(".reset-btn");
-  #cancelBtn = document.querySelector(".cancel-btn");
-  #submitBtn = document.querySelector(".url-submit-btn");
-  #selectInputsContainer = document.querySelector(
-    ".select-img-inputs-container"
+  #selectPicture = document.querySelector(".change-picture__select");
+  #pictureFrame = document.querySelector(".change-picture__frame");
+  #userImg = document.querySelector(".change-picture__user-img");
+  #allInputsContainers = document.querySelectorAll(
+    ".change-picture__inputs-container"
   );
-  #editInputsContainer = document.querySelector(".edit-img-inputs-container");
+  #zoomNumInput = document.querySelector(".change-picture__input--zoom-num");
+  #zoomRangeInput = document.querySelector(
+    ".change-picture__input--zoom-range"
+  );
+  #uploadFileInput = document.querySelector(".change-picture__input--upload");
+  #urlInput = document.querySelector(".change-picture__input--url");
+  #uploadBtn = document.querySelector(".settings__btn--upload");
+  #allBtns = document.querySelectorAll(".change-picture__button");
+  #changeBtn = document.querySelector(".settings__btn--change");
+  #acceptBtn = document.querySelector(".settings__btn--accept");
+  #resetBtn = document.querySelector(".settings__btn--reset");
+  #cancelBtn = document.querySelector(".settings__btn--cancel");
+  #submitBtn = document.querySelector(".settings__btn--url");
+  // #selectInputsContainer = document.querySelector(
+  //   ".change-picture__inputs-container--select"
+  // );
+  #editInputsContainer = document.querySelector(
+    ".change-picture__inputs-container--edit"
+  );
 
   #zoomValue = 100;
   #offsetX = 0;
@@ -44,40 +46,31 @@ class ChangeProfilePictureView {
   }
 
   #changeMode(mode) {
+    this.#pictureFrame.classList.remove("edit", "select");
     this.#allBtns.forEach((btn) => btn.classList.add("hidden"));
     this.#allInputsContainers.forEach((container) =>
       container.classList.add("hidden")
     );
-    this.#editCircle.classList.add("hidden");
-    this.#selectCircle.classList.add("hidden");
-    this.#outerFrames.forEach((frame) => frame.classList.add("hidden"));
-    this.#pictureFrame.classList.remove("picture-mode");
-    this.#circleEditContainer.classList.add("hidden");
+    this.#selectPicture.classList.add("hidden");
+    this.#userImg.classList.add("hidden");
 
     if (mode === "picture") {
+      this.#userImg.classList.remove("hidden");
       this.#changeBtn.classList.remove("hidden");
-      this.#pictureFrame.classList.remove("hidden");
-      this.#pictureFrame.classList.add("picture-mode");
     }
     if (mode === "select") {
+      this.#pictureFrame.classList.add("select");
+      this.#selectPicture.classList.remove("hidden");
       this.#cancelBtn.classList.remove("hidden");
-      this.#selectInputsContainer.classList.remove("hidden");
-      this.#selectFrame.classList.remove("hidden");
-      this.#selectCircle.classList.remove("hidden");
-
-      this.#circleEditContainer.classList.remove("hidden");
       this.#resetUserImageSrc();
     }
     if (mode === "edit") {
+      this.#pictureFrame.classList.add("edit");
+      this.#userImg.classList.remove("hidden");
       this.#acceptBtn.classList.remove("hidden");
       this.#resetBtn.classList.remove("hidden");
       this.#cancelBtn.classList.remove("hidden");
-
       this.#editInputsContainer.classList.remove("hidden");
-      this.#editCircle.classList.remove("hidden");
-
-      this.#pictureFrame.classList.remove("hidden");
-      this.#circleEditContainer.classList.remove("hidden");
     }
   }
 
@@ -159,7 +152,6 @@ class ChangeProfilePictureView {
     this.#uploadFileInput.addEventListener("change", (e) => {
       const file = e.target.files;
       const imgUrl = URL.createObjectURL(file[0]);
-      console.log(imgUrl);
 
       this.#userImg.src = imgUrl;
       this.#uploadedFile = file[0];
@@ -169,29 +161,35 @@ class ChangeProfilePictureView {
   }
 
   #addHandlerDragEnter() {
-    this.#selectCircle.addEventListener("dragenter", (e) => {
+    this.#pictureFrame.addEventListener("dragenter", (e) => {
       e.preventDefault();
-      this.#selectCircle.classList.add("dragover");
+      if (!this.#pictureFrame.classList.contains("select")) return;
+      this.#pictureFrame.classList.add("dragover");
     });
   }
 
   #addHandlerDragOver() {
-    this.#selectCircle.addEventListener("dragover", (e) => {
+    this.#pictureFrame.addEventListener("dragover", (e) => {
       e.preventDefault();
+      if (!this.#pictureFrame.classList.contains("select")) return;
     });
   }
 
   #addHandlerDragleave() {
-    this.#selectCircle.addEventListener("dragleave", (e) => {
+    this.#pictureFrame.addEventListener("dragleave", (e) => {
       e.preventDefault();
+      if (!this.#pictureFrame.classList.contains("select")) return;
+
       if (e.relatedTarget?.closest(".dropzone")) return;
-      this.#selectCircle.classList.remove("dragover");
+      this.#pictureFrame.classList.remove("dragover");
     });
   }
 
   #addHandlerDrop() {
-    this.#selectCircle.addEventListener("drop", (e) => {
+    this.#pictureFrame.addEventListener("drop", (e) => {
       e.preventDefault();
+      if (!this.#pictureFrame.classList.contains("select")) return;
+
       try {
         const imgUrl = e.dataTransfer.getData("Text");
         this.#userImg.src = imgUrl;
@@ -211,23 +209,33 @@ class ChangeProfilePictureView {
     let initY;
 
     this.#pictureFrame.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      if (!this.#pictureFrame.classList.contains("edit")) return;
+
       isMouseDown = true;
-      initX = e.offsetX - this.#offsetX;
-      initY = e.offsetY - this.#offsetY;
+      initX = e.layerX - this.#offsetX;
+      initY = e.layerY - this.#offsetY;
     });
 
     this.#pictureFrame.addEventListener("mousemove", (e) => {
+      e.preventDefault();
+      if (!this.#pictureFrame.classList.contains("edit")) return;
       if (!isMouseDown) return;
-      this.#offsetX = e.offsetX - initX;
-      this.#offsetY = e.offsetY - initY;
+
+      this.#offsetX = e.layerX - initX;
+      this.#offsetY = e.layerY - initY;
       this.#adjustImg();
     });
 
     this.#pictureFrame.addEventListener("mouseup", (e) => {
+      if (!this.#pictureFrame.classList.contains("edit")) return;
+
       isMouseDown = false;
     });
 
     this.#pictureFrame.addEventListener("mouseleave", (e) => {
+      if (!this.#pictureFrame.classList.contains("edit")) return;
+
       if (!isMouseDown) return;
       isMouseDown = false;
     });
@@ -246,6 +254,8 @@ class ChangeProfilePictureView {
 
     this.#pictureFrame.addEventListener("wheel", (e) => {
       e.preventDefault();
+      if (!this.#pictureFrame.classList.contains("edit")) return;
+
       const wheelZoom = e.deltaY;
       this.#zoomNumInput.value =
         +this.#zoomNumInput.value + (wheelZoom < 0 ? 10 : -10);
