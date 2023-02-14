@@ -80,8 +80,10 @@ class TodoView {
   }
 
   addNewLine(element, placement) {
+    const id = Date.now().toString();
+    console.log(id);
     const markup = `
-      <div class="task">
+      <div data-id=${id} class="task">
         <div class="task__checkbox-container">
           <i class="ph-check-square checkbox task__icon  task__icon--checkbox hidden"></i>
           <i class="ph-square checkbox  task__icon task__icon--box"></i>
@@ -169,7 +171,7 @@ class TodoView {
           <i class="ph-push-pin  todo-list__icon todo-list__icon--pin ${
             !pinned && "hidden"
           }"></i>
-          <i class="ph-x todo-list__icon todo-list__icon--close-section"></i>
+          <i class="ph-x todo-list__icon todo-list__icon--close-list"></i>
         </div>
                    
         <h2 contenteditable="true" class="todo-list__title" data-color="${color}" >${title}</h2>
@@ -177,7 +179,7 @@ class TodoView {
             ${listItems
               .map(
                 (item) => `
-              <div class="task">
+              <div data-id=${item.id} class="task">
                 <div class="task__checkbox-container">
                   <i class="ph-check-square checkbox task__icon  task__icon--checkbox ${
                     !item.checked && "hidden"
@@ -257,12 +259,16 @@ class TodoView {
   getListData(list) {
     const id = list.dataset.id;
     const title = list.querySelector(".todo-list__title").textContent;
+    console.log(title);
     const color = list.querySelector(".todo-list__title").dataset.color;
     const pinned = !list
       .querySelector(".todo-list__icon--pin")
       .classList.contains("hidden");
     const listItemsEl = list.querySelectorAll(".task");
+    console.log(listItemsEl);
     const listItems = [...listItemsEl].map((element) => {
+      const id = element.dataset.id;
+      console.log(id);
       const checked = element
         .querySelector(".task__icon--box")
         .classList.contains("hidden");
@@ -270,6 +276,7 @@ class TodoView {
       return {
         checked,
         text,
+        id,
       };
     });
     return {
@@ -466,6 +473,7 @@ class TodoView {
     this.todoSection.addEventListener("click", (e) => {
       if (!e.target.classList.contains("todo-list__icon--close-list")) return;
       const list = this.#selectList(e.target);
+      console.log(1);
       list.remove();
     });
   }
@@ -522,6 +530,7 @@ class TodoView {
       this.#togglePinInListOptions(list);
       this.#togglePinInListTop(list);
       const listData = this.getListData(list);
+      console.log(listData);
 
       handler(listData);
 
@@ -540,7 +549,7 @@ class TodoView {
 
       handler(listData);
 
-      this.#closeOptionsMenu(list);
+      // this.#closeOptionsMenu(list);
     });
   }
 }

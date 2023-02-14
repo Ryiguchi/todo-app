@@ -7,7 +7,7 @@ export const todoItem = `
               
     <h2 contenteditable="true" class="todo-list__title" data-color="white" >Untitled List</h2>
     <div class="todo-list__body">
-      <div class="task">
+      <div data-id=${Date.now().toString()} class="task">
         <div class="task__checkbox-container">
           <i class="ph-check-square checkbox task__icon  task__icon--checkbox hidden"></i>
           <i class="ph-square checkbox  task__icon task__icon--box"></i>

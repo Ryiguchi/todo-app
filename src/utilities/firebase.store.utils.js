@@ -44,6 +44,7 @@ export const createUserDocumentFromAuth = async (user, name = null) => {
 };
 
 export const firebaseSaveLists = async (state) => {
+  console.log(state.lists);
   const auth = getAuth();
   if (!auth || !auth.currentUser) return;
 
